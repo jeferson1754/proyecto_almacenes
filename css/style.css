@@ -22,6 +22,7 @@ h1 {
   /* Puedes ajustar el ancho según tus preferencias */
   margin: 10px;
   text-transform: capitalize;
+  box-sizing: border-box;
   /* Espaciado entre los elementos */
 }
 
@@ -204,4 +205,15 @@ header {
 
 .gris:hover {
   background-color: rgb(121, 116, 116);
+}
+
+@media (max-width: 600px) {
+
+  .deudores {
+    width: 100%;
+  }
+
+  .persona-container {
+    width: 40%;
+  }
 }
