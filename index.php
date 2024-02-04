@@ -87,7 +87,7 @@ include 'bd.php';
 
     <div class="deudores">
         <?php
-        $sql = "SELECT rp.ID, a.Nombre_Almacen, p.Nombre, rp.Valor FROM registro_productos rp INNER JOIN almacenes a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID;";
+        $sql = "SELECT rp.ID, a.Nombre_Almacen, p.Nombre, rp.Valor FROM registro_productos rp INNER JOIN almacenes a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID ORDER BY `rp`.`ID` DESC;";
         $result = mysqli_query($conexion, $sql);
 
         while ($mostrar = mysqli_fetch_array($result)) {
