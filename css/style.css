@@ -10,6 +10,7 @@
 
 h1 {
   text-transform: capitalize;
+  margin-top: 20px!important;
 }
 
 .persona-container {
@@ -216,4 +217,55 @@ header {
   .persona-container {
     width: 40%;
   }
+}
+
+/*LINEA */
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-options {
+  display: flex;
+}
+
+.menu-option {
+  cursor: pointer;
+  margin: 10px;
+  padding-bottom: 5px;
+  position: relative;
+}
+
+.menu-line {
+  height: 2px;
+  background-color: #247BA0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 104%;
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.menu-option.active .menu-line {
+  transform: translateX(150%);
+  /* Mover la línea al 100% del ancho del menú-option */
+}
+
+.info-container {
+  display: none;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 18px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* Sombra para el contenedor */
+}
+
+.info-container.active {
+  display: block;
+  width: 100%;
+  /* Ajusta el ancho según tus necesidades */
+  height: auto;
 }

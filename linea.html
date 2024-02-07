@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opciones de Menú</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .menu-options {
+            display: flex;
+        }
+
+        .menu-option {
+            cursor: pointer;
+            margin: 10px;
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+        .menu-line {
+            height: 2px;
+            background-color: #4CAF50;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 104%;
+            transform: translateX(0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-option.active .menu-line {
+            transform: translateX(150%);
+            /* Mover la línea al 100% del ancho del menú-option */
+        }
+
+        .info-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            /* Sombra para el contenedor */
+        }
+
+        .info-container.active {
+            display: block;
+            background-color: black;
+            width: 100%;
+            /* Ajusta el ancho según tus necesidades */
+            height: auto;
+        }
+
+        .youtube-container {
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 56.25%;
+            /* Proporción de aspecto del video (16:9) */
+            height: 0;
+        }
+
+        .youtube-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu-container">
+        <div class="menu-options">
+            <div class="menu-option" onclick="showOption(1)">
+                Opción 1
+                <div class="menu-line"></div>
+            </div>
+            <div class="menu-option" onclick="showOption(2)">
+                Opción 2
+
+            </div>
+            <div class="menu-option" onclick="showOption(3)">
+                Opción 3
+
+            </div>
+        </div>
+    </div>
+
+    <div class="info-container mostrar" id="info-option-1">
+        Contenido de la Opción 1
+    </div>
+
+    <div class="info-container" id="info-option-2">
+        <div class="youtube-container">
+            <iframe class="youtube-iframe" src="https://www.youtube.com/embed/TU_ID_DE_VIDEO" frameborder="0"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="info-container" id="info-option-3">
+        Contenido de la Opción 3
+    </div>
+
+    <script>
+        let selectedOption = 1;
+
+        function showOption(option) {
+            if (option !== selectedOption) {
+                // Mover la línea debajo de la opción seleccionada
+                const menuLine = document.querySelector('.menu-line');
+                menuLine.style.transform = `translateX(${(option - 1) * 128}%)`;
+
+                // Ocultar la información de la opción anterior
+                const prevInfoContainer = document.querySelector(`#info-option-${selectedOption}`);
+                prevInfoContainer.classList.remove('active');
+
+                // Mostrar la información de la opción seleccionada
+                const currentInfoContainer = document.querySelector(`#info-option-${option}`);
+                currentInfoContainer.classList.add('active');
+
+                selectedOption = option;
+            }
+        }
+
+        // Al cargar la página, mostrar la primera opción por defecto
+        showOption(selectedOption);
+    </script>
+</body>
+
+</html>
