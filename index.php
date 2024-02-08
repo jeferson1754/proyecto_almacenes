@@ -54,7 +54,7 @@ include 'bd.php';
                         <form class="form" method="POST" action="guardado_datos.php">
                             <div class="form-group">
                                 <label for="nombre_almacen" class="col-form-label">
-                                    Nombre del Almacen:
+                                    Nombre de la Tienda:
                                 </label>
                                 <input type="text" name="nombre_almacen" id="nombre" list="nombres" class="form-control" required>
                                 <datalist id="nombres">
@@ -153,10 +153,10 @@ include 'bd.php';
                                 <label for="nombre_almacen" class="col-form-label">
                                     Nombre del Almacen:
                                 </label>
-                                <input type="text" name="nombre_almacen" id="nombre" list="nombres" class="form-control" required>
-                                <datalist id="nombres">
+                                <input type="text" name="nombre_almacen" id="nombres" list="nombre_al" class="form-control" required>
+                                <datalist id="nombre_al">
                                     <?php
-                                    $nombres = $conexion->query("SELECT DISTINCT Nombre_Almacen FROM `tiendas`;;");
+                                    $nombres = $conexion->query("SELECT DISTINCT Nombre_Almacen FROM `tiendas` where Tipo='Almacen';");
 
                                     foreach ($nombres as $nombre) {
                                         echo "<option value='" . $nombre['Nombre_Almacen'] . "'></option>";
@@ -211,16 +211,16 @@ include 'bd.php';
         </figure>
         <!-- Button trigger modal -->
         <div class="d-flex justify-content-center">
-            <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#ModalNuevoAlmacen">
+            <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#ModalNuevoSupermercado">
                 Nuevo Supermercado
             </button>
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="ModalNuevoAlmacen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="ModalNuevoSupermercado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de Almacenes</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Registro de Supermercados</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -230,10 +230,10 @@ include 'bd.php';
                                 <label for="nombre_supermercado" class="col-form-label">
                                     Nombre del Supermercado:
                                 </label>
-                                <input type="text" name="nombre_supermercado" id="nombre" list="nombres" class="form-control" required>
-                                <datalist id="nombres">
+                                <input type="text" name="nombre_supermercado" id="nombres" list="nombre_sup" class="form-control" required>
+                                <datalist id="nombre_sup">
                                     <?php
-                                    $nombres = $conexion->query("SELECT DISTINCT Nombre_Almacen FROM `tiendas`;;");
+                                    $nombres = $conexion->query("SELECT DISTINCT Nombre_Almacen FROM `tiendas` where Tipo='Supermercado';");
 
                                     foreach ($nombres as $nombre) {
                                         echo "<option value='" . $nombre['Nombre_Almacen'] . "'></option>";
