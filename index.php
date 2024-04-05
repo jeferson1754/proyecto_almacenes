@@ -16,7 +16,6 @@ include 'bd.php';
 
 <body>
 
-
     <div class="menu-container">
         <div class="menu-options">
             <div class="menu-option" onclick="showOption(1)">

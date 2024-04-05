@@ -51,6 +51,20 @@ if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
         $sql = "INSERT INTO `registro_productos` (`ID`, `ID_Almacen`, `ID_Producto`, `Valor`, `Fecha_Registro`)
  VALUES ( NULL ,'" . $id_almacen . "','" . $id_producto . "','" . $precio . "','" . $fecha_hora_actual . "')";
         $conn->exec($sql);
+        $last_id_registro_productos = $conn->lastInsertId();
+        echo $sql . "<br>";
+        $conn = null;
+    } catch (PDOException $e) {
+        $conn = null;
+    }
+
+    //INSERTAR DATOS EN HISTORIAL DE PRODUCTOS
+    try {
+        $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO `historial_productos` (`ID`, `ID_Registro`, `Valor`, `Fecha_Historial`)
+     VALUES ( NULL ,'" . $last_id_registro_productos . "','" . $precio . "','" . $fecha_hora_actual . "')";
+        $conn->exec($sql);
         echo $sql . "<br>";
         $conn = null;
     } catch (PDOException $e) {
