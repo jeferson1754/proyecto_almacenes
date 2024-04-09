@@ -32,9 +32,7 @@ include 'bd.php';
     </div>
 
     <div class="info-container active" id="info-option-1">
-        <form action="" method="POST" class="search-form">
-            <input type="search" name="campo" id="campo" placeholder="Buscar...">
-        </form>
+
         <figure class="text-center">
             <h1>Lista de Productos</h1>
         </figure>
@@ -44,6 +42,11 @@ include 'bd.php';
                 Nuevo Producto
             </button>
         </div>
+
+        <form action="" method="POST" class="search-form">
+            <input type="search" name="campo" id="campo" placeholder="Buscar...">
+        </form>
+        
         <!-- Modal -->
         <div class="modal fade" id="ModalNuevo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -286,7 +289,7 @@ include 'bd.php';
 
         getData();
 
-        document.getElementById("campo").addEventListener("keyup",getData)
+        document.getElementById("campo").addEventListener("keyup", getData)
 
         function getData() {
             let input = document.getElementById("campo").value;
