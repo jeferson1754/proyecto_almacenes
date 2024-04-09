@@ -32,6 +32,9 @@ include 'bd.php';
     </div>
 
     <div class="info-container active" id="info-option-1">
+        <form action="" method="POST" class="search-form">
+            <input type="search" name="campo" id="campo" placeholder="Buscar...">
+        </form>
         <figure class="text-center">
             <h1>Lista de Productos</h1>
         </figure>
@@ -102,28 +105,9 @@ include 'bd.php';
             </div>
         </div>
 
-        <div class="deudores">
-            <?php
-            $sql = "SELECT rp.ID, a.Nombre_Almacen, p.Nombre, rp.Valor FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID ORDER BY `rp`.`ID` DESC;";
-            $result = mysqli_query($conexion, $sql);
+        <div id="content" class="deudores">
 
-            while ($mostrar = mysqli_fetch_array($result)) {
-            ?>
-                <div class="persona-container">
 
-                    <div class="nombre-persona"><?php echo $mostrar['Nombre'] . "<br> $" . $mostrar['Valor'] ?></div>
-                    <div class="nombre-chico">
-                        <?php echo $mostrar['Nombre_Almacen'] ?>
-                    </div>
-                    <div class="contenido">
-                        <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditar<?php echo $mostrar['ID']; ?>">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </button>
-                    </div>
-                </div>
-            <?php
-            }
-            ?>
         </div>
     </div>
 
@@ -299,6 +283,29 @@ include 'bd.php';
 
         // Al cargar la página, mostrar la primera opción por defecto
         showOption(selectedOption);
+
+        getData();
+
+        document.getElementById("campo").addEventListener("keyup",getData)
+
+        function getData() {
+            let input = document.getElementById("campo").value;
+            let content = document.getElementById("content");
+            let url = "load.php";
+            let formaData = new FormData();
+            formaData.append('campo', input);
+
+            fetch(url, {
+                    method: "POST",
+                    body: formaData
+                }).then(response => response.json())
+
+                .then(data => {
+                    content.innerHTML = data
+                }).catch(e => console.log(e))
+
+
+        }
     </script>
 </body>
 
