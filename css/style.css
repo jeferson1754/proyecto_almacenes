@@ -1,16 +1,14 @@
 .deudores {
   display: flex;
   justify-content: space-around;
-  /* Distribuye los elementos de manera uniforme en el eje x */
   flex-wrap: wrap;
-  /* Permite que los elementos se envuelvan a una nueva línea cuando no hay espacio suficiente */
   padding: 20px;
-  /* Agrega un espacio alrededor de los elementos */
 }
 
-h1 {
+.deudores h1 {
   text-transform: capitalize;
   margin-top: 20px !important;
+  font-size: 50px !important;
 }
 
 .persona-container {
@@ -20,27 +18,9 @@ h1 {
   background-color: #f4f4f4;
   border-radius: 8px;
   width: 200px;
-  /* Puedes ajustar el ancho según tus preferencias */
   margin: 10px;
   text-transform: capitalize;
   box-sizing: border-box;
-  /* Espaciado entre los elementos */
-}
-
-.icono-persona {
-  width: 80px;
-  /* Puedes ajustar el tamaño del icono */
-  height: 80px;
-  margin: auto;
-  background-image: url('../icons/icons8-female-profile-96.png');
-  /* Reemplaza con la ruta de tu icono */
-  background-size: cover;
-  margin-bottom: 8px;
-  border-radius: 50%;
-  /* Para hacer el icono redondo */
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  /* Transición suave de 0.3 segundos */
 }
 
 .nombre-persona {
@@ -53,20 +33,9 @@ h1 {
   font-weight: bold;
 }
 
-/* Quitar el subrayado del enlace */
 a {
   text-decoration: none !important;
   color: black !important;
-}
-
-/* Efecto de agrandar al hacer hover */
-.icono-persona:hover {
-  transform: scale(1.1);
-  /* Aumenta el tamaño al 110% */
-}
-
-h1 {
-  font-size: 50px !important;
 }
 
 .button {
@@ -89,62 +58,6 @@ h1 {
   top: 2px;
 }
 
-table {
-  width: 80%;
-  margin: 20px auto;
-  border-collapse: collapse;
-  border-spacing: 0;
-  font-size: 16px;
-}
-
-th,
-td {
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  text-align: center !important;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
-  background-color: #f5f5f5;
-}
-
-.add {
-  color: white;
-  background-color: #1D4ED8;
-  --ring-color: #93C5FD;
-  font-weight: 500;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  line-height: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
-  text-align: center;
-  margin-right: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  border: none;
-}
-
-.add:hover {
-  background-color: #1E40AF;
-}
-
-.add:focus {
-  box-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-}
-
-.add img {
-  display: inline;
-  margin-right: 0.75rem;
-  color: white;
-}
-
 .contenido {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -153,7 +66,6 @@ tr:hover {
   align-items: center;
   justify-content: center;
   background-color: #f4f4f4;
-
 }
 
 .boton-volver {
@@ -174,18 +86,8 @@ tr:hover {
   background-color: #0056b3;
 }
 
-.rojo:hover {
-  background-color: #b91414;
-}
-
-.icono-flecha {
-  display: inline-block;
-  margin-right: 5px;
-  font-size: 18px;
-}
-
 .text-center .cuerpo {
-  margin-top: 140px
+  margin-top: 140px;
 }
 
 header {
@@ -196,30 +98,6 @@ header {
   background-color: #f4f4f4;
 }
 
-.rojo {
-  background-color: red;
-}
-
-.gris {
-  background-color: gray;
-}
-
-.gris:hover {
-  background-color: rgb(121, 116, 116);
-}
-
-@media (max-width: 600px) {
-
-  .deudores {
-    width: 100%;
-  }
-
-  .persona-container {
-    width: 40%;
-  }
-}
-
-/*LINEA */
 .menu-container {
   display: flex;
   justify-content: center;
@@ -244,13 +122,11 @@ header {
   bottom: 0;
   left: 0;
   width: 104%;
-  transform: translateX(0);
-  transition: transform 0.3s ease-in-out;
+  display: none;
 }
 
-.menu-option.active .menu-line {
-  transform: translateX(150%);
-  /* Mover la línea al 100% del ancho del menú-option */
+.display {
+  display: block;
 }
 
 .info-container {
@@ -260,17 +136,13 @@ header {
   border-radius: 5px;
   font-size: 18px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  /* Sombra para el contenedor */
 }
 
 .info-container.active {
   display: block;
   width: 100%;
-  /* Ajusta el ancho según tus necesidades */
   height: auto;
 }
-
-/* Estilos para el buscador */
 
 .search-form {
   display: flex;
@@ -278,7 +150,6 @@ header {
   justify-content: center;
   margin-bottom: 20px;
   margin-top: 20px;
-  /* Espacio inferior entre el formulario y otros elementos */
 }
 
 .search-form input[type="search"] {
@@ -287,7 +158,5 @@ header {
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 300px;
-  /* Ancho del campo de búsqueda */
   margin-right: 5px;
-  /* Espacio derecho entre el campo de búsqueda y el botón */
 }

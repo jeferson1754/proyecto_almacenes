@@ -20,16 +20,23 @@ include 'bd.php';
         <div class="menu-options">
             <div class="menu-option" onclick="showOption(1)">
                 Productos
-                <div class="menu-line"></div>
+                <div class="menu-line display" id="linea-option-1"></div>
             </div>
             <div class="menu-option" onclick="showOption(2)">
                 Almacenes
+                <div class="menu-line" id="linea-option-2"></div>
             </div>
             <div class="menu-option" onclick="showOption(3)">
                 Supermercados
+                <div class="menu-line" id="linea-option-3"></div>
+            </div>
+            <div class="menu-option" onclick="showOption(4)">
+                Editar Productos
+                <div class="menu-line" id="linea-option-4"></div>
             </div>
         </div>
     </div>
+
 
     <div class="info-container active" id="info-option-1">
 
@@ -46,7 +53,7 @@ include 'bd.php';
         <form action="" method="POST" class="search-form">
             <input type="search" name="campo" id="campo" placeholder="Buscar...">
         </form>
-        
+
         <!-- Modal -->
         <div class="modal fade" id="ModalNuevo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -112,6 +119,8 @@ include 'bd.php';
 
 
         </div>
+
+
     </div>
 
     <div class="info-container" id="info-option-2">
@@ -177,12 +186,11 @@ include 'bd.php';
 
                     <div class="nombre-persona"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
                     <div class="nombre-chico">
-                        <?php echo $mostrar2['Direccion'] ?>
-                    </div>
-                    <div class="contenido">
-                        <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditar<?php echo $mostrar2['ID']; ?>">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </button>
+                        <?php if ($mostrar2['Direccion'] != NULL) {
+                            echo $mostrar2['Direccion'];
+                        } else {
+                            echo "Sin Direccion";
+                        } ?>
                     </div>
                 </div>
             <?php
@@ -248,15 +256,47 @@ include 'bd.php';
 
                     <div class="nombre-persona"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
                     <div class="nombre-chico">
-                        <?php echo $mostrar2['Direccion'] ?>
+                        <?php if ($mostrar2['Direccion'] != NULL) {
+                            echo $mostrar2['Direccion'];
+                        } else {
+                            echo "Sin Direccion";
+                        } ?>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
+        </div>
+    </div>
+
+    <div class="info-container" id="info-option-4">
+        <figure class="text-center">
+            <h1>Lista de Productos</h1>
+        </figure>
+
+        <div class="deudores">
+            <?php
+            $sql1 = "SELECT rp.ID,Nombre_Almacen,Nombre,Valor FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID ORDER BY `rp`.`ID` DESC;";
+            $result1 = mysqli_query($conexion, $sql1);
+
+            while ($mostrar2 = mysqli_fetch_array($result1)) {
+            ?>
+                <div class="persona-container">
+
+                    <div class="nombre-persona"><?php echo $mostrar2['Nombre'] . '<br> $' . $mostrar2['Valor'] ?></div>
+                    <div class="nombre-chico">
+                        <?php echo $mostrar2['Nombre_Almacen'] ?>
                     </div>
                     <div class="contenido">
-                        <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditar<?php echo $mostrar2['ID']; ?>">
+                        <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditarProducto<?php echo $mostrar2['ID']; ?>">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </button>
                     </div>
                 </div>
+
+
             <?php
+                include 'ModalEditar.php';
             }
             ?>
         </div>
@@ -267,22 +307,36 @@ include 'bd.php';
         let selectedOption = 1;
 
         function showOption(option) {
-            if (option !== selectedOption) {
-                // Mover la línea debajo de la opción seleccionada
-                const menuLine = document.querySelector('.menu-line');
-                menuLine.style.transform = `translateX(${(option - 1) * 128}%)`;
-
-                // Ocultar la información de la opción anterior
-                const prevInfoContainer = document.querySelector(`#info-option-${selectedOption}`);
-                prevInfoContainer.classList.remove('active');
-
-                // Mostrar la información de la opción seleccionada
-                const currentInfoContainer = document.querySelector(`#info-option-${option}`);
-                currentInfoContainer.classList.add('active');
-
-                selectedOption = option;
+            if (option === selectedOption) {
+                return; // Salir si la opción seleccionada ya está activa
             }
+
+            // Ocultar la información de la opción anterior y su línea
+            hideInfoAndLine(selectedOption);
+
+            // Mostrar la información de la opción seleccionada y su línea
+            showInfoAndLine(option);
+
+            selectedOption = option;
         }
+
+        function hideInfoAndLine(option) {
+            const prevInfoContainer = document.querySelector(`#info-option-${option}`);
+            prevInfoContainer.classList.remove('active');
+
+            const menuprev = document.querySelector(`#linea-option-${option}`);
+            menuprev.classList.remove('display');
+        }
+
+        function showInfoAndLine(option) {
+            const currentInfoContainer = document.querySelector(`#info-option-${option}`);
+            currentInfoContainer.classList.add('active');
+
+            const menuok = document.querySelector(`#linea-option-${option}`);
+            menuok.classList.add('display');
+        }
+
+
 
         // Al cargar la página, mostrar la primera opción por defecto
         showOption(selectedOption);

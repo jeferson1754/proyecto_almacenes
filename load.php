@@ -2,7 +2,7 @@
 
 require 'bd.php';
 
-$columns = ['Nombre_Almacen', 'Nombre', 'Valor'];
+$columns = ['Nombre_Almacen', 'Nombre', 'Valor', 'a.ID'];
 
 
 $campo = isset($_POST['campo']) ? $conexion->real_escape_string($_POST['campo']) : null;
@@ -41,7 +41,8 @@ if ($num_rows > 0) {
         $html .= '<div class="persona-container">';
         $html .= '<div class="nombre-persona">' . $mostrar['Nombre'] . '<br> $' . $mostrar['Valor'] . '</div>';
         $html .= '<div class="nombre-chico">' . $mostrar['Nombre_Almacen'];
-        $html .= '</div></div>';
+        $html .= '</div>';
+        $html .= '</div>';
     }
 } else {
 
