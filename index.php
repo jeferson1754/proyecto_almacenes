@@ -9,6 +9,7 @@ include 'bd.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/checkbox.css?v=<?php echo time(); ?>">
     <script src="https://kit.fontawesome.com/8846655159.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Tiendas</title>
@@ -281,6 +282,7 @@ include 'bd.php';
 
             while ($mostrar2 = mysqli_fetch_array($result1)) {
             ?>
+
                 <div class="persona-container">
 
                     <div class="nombre-persona"><?php echo $mostrar2['Nombre'] . '<br> $' . $mostrar2['Valor'] ?></div>
@@ -299,6 +301,7 @@ include 'bd.php';
                 include 'ModalEditar.php';
             }
             ?>
+
         </div>
     </div>
 
@@ -360,8 +363,6 @@ include 'bd.php';
                 .then(data => {
                     content.innerHTML = data
                 }).catch(e => console.log(e))
-
-
         }
     </script>
 </body>

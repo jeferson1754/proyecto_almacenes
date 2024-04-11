@@ -1,8 +1,7 @@
 <?php
 include 'bd.php';
 
-date_default_timezone_set('America/Santiago');
-$fecha_hora_actual = date('Y-m-d H:i:s');
+
 
 $nombre_almacen     = $_REQUEST['nombre_almacen'];
 $direccion         = $_REQUEST['direccion_almacen'];

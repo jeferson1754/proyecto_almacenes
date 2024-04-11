@@ -9,6 +9,8 @@ $conexion = mysqli_connect($servidor, $usuario, $password) or die("No se ha podi
 $dbo = mysqli_select_db($conexion, $basededatos) or die("Upps! Error en conectar a la Base de Datos");
 
 //Linea para los caracteres �
+date_default_timezone_set('America/Santiago');
+$fecha_hora_actual = date("Y-m-d");
 
 // AGREGANDO CHARSET UTF8
 if (!mysqli_set_charset($conexion, "utf8")) {

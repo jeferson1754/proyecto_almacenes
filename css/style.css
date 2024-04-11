@@ -17,7 +17,7 @@
   padding: 10px;
   background-color: #f4f4f4;
   border-radius: 8px;
-  width: 200px;
+  width: 160px;
   margin: 10px;
   text-transform: capitalize;
   box-sizing: border-box;
@@ -109,6 +109,7 @@ header {
 }
 
 .menu-option {
+  width: auto;
   cursor: pointer;
   margin: 10px;
   padding-bottom: 5px;
@@ -160,3 +161,16 @@ header {
   width: 300px;
   margin-right: 5px;
 }
+
+/* Boton desabilitado*/
+
+/* Agrega un estilo para el botón cuando tenga la clase 'deshabilitado' */
+.btn.deshabilitado {
+  background-color: gray !important;
+  /* Cambia el color de fondo */
+  color: white !important;
+  /* Cambia el co lor del texto */
+  border-color: gray !important;
+  /* Cambia el color del borde */
+}
+
