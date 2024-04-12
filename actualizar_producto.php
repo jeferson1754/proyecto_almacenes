@@ -9,7 +9,23 @@ $nombre_almacen     = $_REQUEST['nombre_almacen'];
 $nombre_producto    = $_REQUEST['nombre_producto'];
 $precio             = $_REQUEST['precio'];
 
-echo $nombre_almacen . "<br>" . $nombre_producto . "<br>" . $precio . "<br>";
+$detalle_promocion  = $_REQUEST['detalle_promocion'];
+
+if (isset($_REQUEST["Indefinido"])) {
+    $indefinido    = $_REQUEST['Indefinido'];
+} else {
+    $indefinido = "NO";
+}
+
+if (isset($_REQUEST["fecha_termino"])) {
+    $fecha_termino    = $_REQUEST['fecha_termino'];
+} else {
+    $fecha_termino = "00-00-0000";
+}
+
+
+
+echo $nombre_almacen . "<br>" . $nombre_producto . "<br>" . $precio . "<br><br>Detalle: " . $detalle_promocion . "<br> Fecha_Termino: " . $fecha_termino . "<br> Indefinido: " . $indefinido . "<br> ";
 
 if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
 
@@ -49,7 +65,6 @@ if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
     try {
         $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //UPDATE registro_productos SET ID_Almacen="",ID_Producto="",Valor="",Fecha_Registro="" where ID="";
         $sql = "UPDATE registro_productos SET ID_Almacen='" . $id_almacen . "',ID_Producto='" . $id_producto . "',Valor='" . $precio . "',Fecha_Registro='" . $fecha_hora_actual . "' where ID='" . $id_registro . "';";
         $conn->exec($sql);
         echo $sql . "<br>";
@@ -72,12 +87,28 @@ if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
         echo $valor_anterior . '<br>' . $precio . '<br>' . $diferencia . '<br>';
     }
 
-    //INSERTAR DATOS EN HISTORIAL DE PRODUCTOS
+    if ($diferencia != 0) {
+        //INSERTAR DATOS EN HISTORIAL DE PRODUCTOS
+        try {
+            $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "INSERT INTO `historial_productos` (`ID`, `ID_Registro`, `Valor`,`Diferencia`,  `Fecha_Historial`)
+            VALUES ( NULL ,'" . $id_registro . "','" . $precio . "','" . $diferencia . "','" . $fecha_hora_actual . "')";
+            $conn->exec($sql);
+            echo $sql . "<br>";
+            $conn = null;
+        } catch (PDOException $e) {
+            $conn = null;
+        }
+    }
+}
+
+if ($detalle_promocion != NULL) {
     try {
         $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO `historial_productos` (`ID`, `ID_Registro`, `Valor`,`Diferencia`,  `Fecha_Historial`)
-     VALUES ( NULL ,'" . $id_registro . "','" . $precio . "','" . $diferencia . "','" . $fecha_hora_actual . "')";
+        $sql = "INSERT INTO `registro_promocion` (`ID`, `ID_Registro`, `Promocion`,`Fecha_Termino`,  `Indefinido`)
+        VALUES ( NULL ,'" . $id_registro . "','" . $detalle_promocion . "','" . $fecha_termino . "','" . $indefinido . "')";
         $conn->exec($sql);
         echo $sql . "<br>";
         $conn = null;

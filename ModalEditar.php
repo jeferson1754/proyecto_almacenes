@@ -45,11 +45,11 @@
             <div class="form-group" style="margin-top:10px">
               <label for="fecha_termino_<?php echo $mostrar2['ID']; ?>" class="form-label">Fecha Termino:</label>
               <div style="display: flex; align-items: center;">
-                <input type="date" class="form-control" name="fecha_termino_<?php echo $mostrar2['ID']; ?>" value="<?php echo $fecha_hora_actual; ?>" id="fecha_termino_<?php echo $mostrar2['ID']; ?>">
+                <input type="date" class="form-control" name="fecha_termino" value="<?php echo $fecha_hora_actual; ?>" id="fecha_termino_<?php echo $mostrar2['ID']; ?>">
                 <div class="todo">
                   <label class="container" style="width:80px">
                     <span class="text">Indefinido</span>
-                    <input type="checkbox" name="Indefinido_<?php echo $mostrar2['ID']; ?>" value="SI" unchecked id="indefinido_checkbox_<?php echo $mostrar2['ID']; ?>">
+                    <input type="checkbox" name="Indefinido" value="SI" unchecked id="indefinido_checkbox_<?php echo $mostrar2['ID']; ?>">
                     <span class="checkmark"></span>
                   </label>
                 </div>
@@ -82,18 +82,21 @@
         </div>
       </form>
       <script>
-        function agregarFormulario(id, boton) {
+        function agregarFormulario(id) {
           // Concatenar el ID dinámico para obtener el ID completo del div
           var divID = 'Agregar_Promocion_' + id;
 
           // Obtener el div por su ID
           var divPromocion = document.getElementById(divID);
 
-          // Cambiar el estilo del div
-          divPromocion.style.display = 'block'; // Cambiar a 'block' para mostrar el div
-
-          // Agregar clase al botón
-          boton.classList.add('deshabilitado');
+          // Verificar el estado actual del div
+          if (divPromocion.style.display === 'none' || divPromocion.style.display === '') {
+            // Si está oculto, mostrar el div
+            divPromocion.style.display = 'block';
+          } else {
+            // Si está visible, ocultar el div
+            divPromocion.style.display = 'none';
+          }
         }
 
         // Función para manejar el cambio de estado del checkbox
