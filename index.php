@@ -32,8 +32,8 @@ include 'bd.php';
                 Supermercados
                 <div class="menu-line" id="linea-option-3"></div>
             </div>
-            <div class="menu-option" onclick="showOption(4)">
-                Editar Productos
+            <div class="menu-option">
+                <a href="./login.html">Login</a>
                 <div class="menu-line" id="linea-option-4"></div>
             </div>
         </div>
@@ -276,40 +276,6 @@ include 'bd.php';
         </div>
     </div>
 
-    <div class="info-container" id="info-option-4">
-        <figure class="text-center">
-            <h1>Lista de Productos</h1>
-        </figure>
-
-        <div class="deudores">
-            <?php
-            $sql1 = "SELECT rp.ID,Nombre_Almacen,Nombre,Valor FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID ORDER BY `rp`.`ID` DESC;";
-            $result1 = mysqli_query($conexion, $sql1);
-
-            while ($mostrar2 = mysqli_fetch_array($result1)) {
-            ?>
-
-                <div class="persona-container">
-
-                    <div class="nombre-persona"><?php echo $mostrar2['Nombre'] . '<br> $' . $mostrar2['Valor'] ?></div>
-                    <div class="nombre-chico">
-                        <?php echo $mostrar2['Nombre_Almacen'] ?>
-                    </div>
-                    <div class="contenido">
-                        <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditarProducto<?php echo $mostrar2['ID']; ?>">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </button>
-                    </div>
-                </div>
-
-
-            <?php
-                include 'ModalEditar.php';
-            }
-            ?>
-
-        </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
