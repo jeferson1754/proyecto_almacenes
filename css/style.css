@@ -17,10 +17,18 @@
   padding: 10px;
   background-color: #f4f4f4;
   border-radius: 8px;
-  width: 160px;
+  width: 150px;
   margin: 10px;
   text-transform: capitalize;
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 600px) {
+  .persona-container {
+    padding: 5px;
+    width: 130px;
+    margin: 5px;
+  }
 }
 
 .nombre-persona {
@@ -173,4 +181,3 @@ header {
   border-color: gray !important;
   /* Cambia el color del borde */
 }
-
