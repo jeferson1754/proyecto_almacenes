@@ -15,7 +15,7 @@
             <input type="text" name="nombre_producto" id="producto" list="productos" class="form-control" value="<?php echo $mostrar2['Nombre']; ?>" required>
             <datalist id="productos">
               <?php
-              $productos = $conexion->query("SELECT DISTINCT Nombre FROM `productos`;");
+              $productos = $conexion->query("SELECT CONCAT(productos.Nombre, ' - ', marca.Nombre) AS Nombre FROM productos INNER JOIN marca ON marca.ID = productos.ID_Marca;");
 
               foreach ($productos as $producto) {
                 echo "<option value='" . $producto['Nombre'] . "'></option>";
@@ -46,6 +46,7 @@
               <label for="fecha_termino_<?php echo $mostrar2['ID']; ?>" class="form-label">Fecha Termino:</label>
               <div style="display: flex; align-items: center;">
                 <input type="date" class="form-control" name="fecha_termino" value="<?php echo $fecha_hora_actual; ?>" id="fecha_termino_<?php echo $mostrar2['ID']; ?>">
+                
                 <div class="todo">
                   <label class="container" style="width:80px">
                     <span class="text">Indefinido</span>
@@ -53,6 +54,7 @@
                     <span class="checkmark"></span>
                   </label>
                 </div>
+
               </div>
             </div>
 

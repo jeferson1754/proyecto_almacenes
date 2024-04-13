@@ -1,6 +1,7 @@
 <?php
 include 'bd.php';
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +10,7 @@ include 'bd.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="css/checkbox.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="./css/checkbox.css?v=<?php echo time(); ?>">
     <script src="https://kit.fontawesome.com/8846655159.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Tiendas</title>
@@ -70,12 +71,12 @@ include 'bd.php';
                                     Nombre de la Tienda:
                                 </label>
                                 <input type="text" name="nombre_almacen" id="nombre" list="nombres" class="form-control" required>
-                                <datalist id="nombres">
+                                <datalist id="productos">
                                     <?php
-                                    $nombres = $conexion->query("SELECT DISTINCT Nombre_Almacen FROM `tiendas`;");
+                                    $productos = $conexion->query("SELECT CONCAT(productos.Nombre, ' - ', marca.Nombre) AS Nombre FROM productos INNER JOIN marca ON marca.ID = productos.ID_Marca;");
 
-                                    foreach ($nombres as $nombre) {
-                                        echo "<option value='" . $nombre['Nombre_Almacen'] . "'></option>";
+                                    foreach ($productos as $producto) {
+                                        echo "<option value='" . $producto['Nombre'] . "'></option>";
                                     }
 
                                     ?>
@@ -178,13 +179,15 @@ include 'bd.php';
 
         <div class="deudores">
             <?php
-            $sql1 = "SELECT * FROM `tiendas` where Tipo='Almacen';";
+            $sql1 = "SELECT t.*, COUNT(rp.ID) AS total_productos FROM tiendas t LEFT JOIN registro_productos rp ON t.ID = rp.ID_Almacen WHERE t.Tipo = 'Almacen' GROUP BY t.ID ORDER BY total_productos DESC;";
             $result1 = mysqli_query($conexion, $sql1);
 
             while ($mostrar2 = mysqli_fetch_array($result1)) {
             ?>
                 <div class="persona-container">
-
+                    <div class="circle-container">
+                        <div class="circle"><?php echo $mostrar2['total_productos'] ?></div>
+                    </div>
                     <div class="nombre-persona"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
                     <div class="nombre-chico">
                         <?php if ($mostrar2['Direccion'] != NULL) {
@@ -193,6 +196,7 @@ include 'bd.php';
                             echo "Sin Direccion";
                         } ?>
                     </div>
+
                 </div>
             <?php
             }
@@ -248,13 +252,15 @@ include 'bd.php';
 
         <div class="deudores">
             <?php
-            $sql1 = "SELECT * FROM `tiendas` where Tipo='Supermercado';";
+            $sql1 = "SELECT t.*, COUNT(rp.ID) AS total_productos FROM tiendas t LEFT JOIN registro_productos rp ON t.ID = rp.ID_Almacen WHERE t.Tipo = 'Supermercado' GROUP BY t.ID ORDER BY total_productos DESC;";
             $result1 = mysqli_query($conexion, $sql1);
 
             while ($mostrar2 = mysqli_fetch_array($result1)) {
             ?>
                 <div class="persona-container">
-
+                    <div class="circle-container">
+                        <div class="circle"><?php echo $mostrar2['total_productos'] ?></div>
+                    </div>
                     <div class="nombre-persona"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
                     <div class="nombre-chico">
                         <?php if ($mostrar2['Direccion'] != NULL) {

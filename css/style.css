@@ -23,6 +23,32 @@
   box-sizing: border-box;
 }
 
+.circle-container {
+  margin-right: auto;
+  /* Empuja el círculo hacia la derecha */
+}
+
+.circle {
+  width: 25px;
+  /* Ajusta el tamaño del círculo según sea necesario */
+  height: auto;
+  border-radius: 50%;
+  /* Hace que el div sea un círculo */
+  background-color: #000;
+  /* Color de fondo del círculo */
+  color: #fff;
+  /* Color del texto dentro del círculo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 100px;
+  font-size: 15px;
+  margin-bottom: 15px;
+  /* Espacio entre el texto y el círculo */
+}
+
+
+
 @media screen and (max-width: 600px) {
   .persona-container {
     padding: 5px;
