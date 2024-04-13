@@ -55,6 +55,10 @@
     width: 130px;
     margin: 5px;
   }
+
+  .circle {
+    margin-left: 90px;
+  }
 }
 
 .nombre-persona {
