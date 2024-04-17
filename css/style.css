@@ -71,9 +71,14 @@
   font-weight: bold;
 }
 
+
 a {
   text-decoration: none !important;
   color: black !important;
+}
+
+a:hover {
+  color: lightgreen !important;
 }
 
 .button {

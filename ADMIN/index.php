@@ -1,7 +1,6 @@
 <?php
 include '../bd.php';
-
-
+require 'permisos.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +36,7 @@ include '../bd.php';
 
         <div class="deudores">
             <?php
-            $sql1 = "SELECT rp.ID,Nombre_Almacen,Nombre,Valor FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID ORDER BY `rp`.`ID` DESC;";
+            $sql1 = "SELECT rp.ID,Nombre_Almacen,Nombre,Valor,(a.ID) as ID_Almacen FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID ORDER BY `rp`.`ID` DESC;";
             $result1 = mysqli_query($conexion, $sql1);
 
             while ($mostrar2 = mysqli_fetch_array($result1)) {
@@ -46,9 +45,11 @@ include '../bd.php';
                 <div class="persona-container">
 
                     <div class="nombre-persona"><?php echo $mostrar2['Nombre'] . '<br> $' . $mostrar2['Valor'] ?></div>
-                    <div class="nombre-chico">
-                        <?php echo $mostrar2['Nombre_Almacen'] ?>
-                    </div>
+                    <?php
+                    $variable_id = $mostrar2["ID_Almacen"]; ?>
+                    <a href="tienda_admin.php?id=<?php echo $variable_id; ?>">
+                        <div class="nombre-chico mostrar"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
+                    </a>
                     <div class="contenido">
                         <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditarProducto<?php echo $mostrar2['ID']; ?>">
                             <i class="fa-regular fa-pen-to-square"></i>

@@ -1,0 +1,80 @@
+.container {
+    display: flex;
+}
+
+.image-container {
+    margin-right: 20px;
+    /* Ajusta el margen entre la imagen y los datos */
+}
+
+.image-container img {
+    display: block;
+    max-width: 560px;
+    height: auto;
+    width: 100%;
+}
+
+.data-container {
+    flex-grow: 1;
+    border: 2px solid #ccc;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+}
+
+.data-container div {
+    margin-bottom: 10px;
+    /* Ajusta el espacio entre los elementos de datos */
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        display: block;
+    }
+
+    .contenedor {
+        flex-direction: column;
+    }
+}
+
+
+.div table {
+    border-collapse: collapse;
+    width: 250px;
+    height: max-content;
+    font-size: 20px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.div td {
+    padding: 8px;
+
+}
+
+.contenedor {
+    display: flex;
+
+}
+
+.div {
+    flex: 1;
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+}
+
+.div h2 {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+}
+
+.total {
+    width: 80%;
+    margin: 20px auto auto;
+}

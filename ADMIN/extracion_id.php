@@ -1,5 +1,6 @@
 <?php
 include '../bd.php';
+include 'permisos.php';
 
 $sql1 = "SELECT rp.ID FROM registro_productos rp ORDER BY rp.ID DESC;";
 $result1 = mysqli_query($conexion, $sql1);

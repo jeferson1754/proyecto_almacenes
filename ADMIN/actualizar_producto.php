@@ -1,5 +1,6 @@
 <?php
 include '../bd.php';
+include 'permisos.php';
 
 date_default_timezone_set('America/Santiago');
 $fecha_hora_actual = date('Y-m-d H:i:s');

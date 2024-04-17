@@ -188,7 +188,12 @@ include 'bd.php';
                     <div class="circle-container">
                         <div class="circle"><?php echo $mostrar2['total_productos'] ?></div>
                     </div>
-                    <div class="nombre-persona"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
+                    <?php
+                    $variable_id = $mostrar2["ID"]; ?>
+                    <a href="tienda.php?id=<?php echo $variable_id; ?>">
+                        <div class="nombre-persona"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
+                    </a>
+
                     <div class="nombre-chico">
                         <?php if ($mostrar2['Direccion'] != NULL) {
                             echo $mostrar2['Direccion'];
@@ -261,7 +266,11 @@ include 'bd.php';
                     <div class="circle-container">
                         <div class="circle"><?php echo $mostrar2['total_productos'] ?></div>
                     </div>
-                    <div class="nombre-persona"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
+                    <?php
+                    $variable_id = $mostrar2["ID"]; ?>
+                    <a href="tienda.php?id=<?php echo $variable_id; ?>">
+                        <div class="nombre-persona"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
+                    </a>
                     <div class="nombre-chico">
                         <?php if ($mostrar2['Direccion'] != NULL) {
                             echo $mostrar2['Direccion'];
