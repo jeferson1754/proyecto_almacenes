@@ -4,12 +4,14 @@
 
 .image-container {
     margin-right: 20px;
-    /* Ajusta el margen entre la imagen y los datos */
+    width: 560px;
+    height: 500px;
+    background-color: black;
+    border-radius: 35px;
 }
 
 .image-container img {
     display: block;
-    max-width: 560px;
     height: auto;
     width: 100%;
 }
@@ -27,7 +29,7 @@
     /* Ajusta el espacio entre los elementos de datos */
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
     .container {
         display: block;
     }
@@ -40,7 +42,7 @@
 
 .div table {
     border-collapse: collapse;
-    width: 250px;
+    width: 400px;
     height: max-content;
     font-size: 20px;
     margin: 0 auto;
@@ -49,7 +51,7 @@
 
 .div td {
     padding: 8px;
-
+    text-align: left;
 }
 
 .contenedor {
