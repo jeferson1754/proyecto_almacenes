@@ -195,7 +195,7 @@ include 'bd.php';
                     if ($mostrar2['Indefinido'] != "SI") {
                         echo $mostrar2['Fecha_Termino'];
                     } else {
-                        echo $mostrar2['Indefinido'];
+                        echo "Indefinido";
                     } ?>
                 </td>
             </tr>
