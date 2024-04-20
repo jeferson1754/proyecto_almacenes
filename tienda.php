@@ -54,14 +54,14 @@ include 'bd.php';
     }
     ?>
     <div class="contenedor">
-        <div id="pan" class="pan rating-box div"></div>
+        <div id="pan" class="pan div"></div>
 
-        <div class="rating-box div">
+        <div class="div">
             <h2>LOS ULTIMOS 3 PRODUCTOS</h2>
             <table>
                 <?php
                 $sql1 = "SELECT productos.Nombre,(marca.Nombre) as marca,registro_productos.Valor FROM `registro_productos` INNER JOIN productos ON registro_productos.ID_Producto=productos.ID INNER JOIN marca ON productos.ID_Marca=marca.ID where ID_Almacen=$id_almacen ORDER BY registro_productos.ID DESC LIMIT 3;";
-                echo $sql1;
+                //echo $sql1;
                 $result1 = mysqli_query($conexion, $sql1);
 
                 while ($mostrar2 = mysqli_fetch_array($result1)) {
@@ -154,29 +154,30 @@ include 'bd.php';
     }
     ?>
 
-    <h2 style="text-align:center">Ultimos Productos</h2>
 
-    <div class="data-container total">
-        <table>
-            <table>
-                <?php
-                $sql1 = "SELECT productos.Nombre,(marca.Nombre) as marca,registro_productos.* FROM `registro_productos` INNER JOIN productos ON registro_productos.ID_Producto=productos.ID INNER JOIN marca ON productos.ID_Marca=marca.ID where ID_Almacen=$id_almacen ORDER BY registro_productos.ID DESC;";
-                $result1 = mysqli_query($conexion, $sql1);
+    <?php
 
-                while ($mostrar2 = mysqli_fetch_array($result1)) {
-                ?>
-                    <tr>
-                        <td><?php echo $mostrar2['Nombre'] ?></td>
-                        <td><?php echo $mostrar2['marca'] ?></td>
-                        <td>$<?php echo number_format($mostrar2['Valor'], 0, ',', '.') ?></td>
-                        <td><?php echo date('Y-m-d', strtotime($mostrar2['Fecha_Registro'])) ?></td>
-                    </tr>
-                <?php
-                }
-                ?>
-            </table>
-        </table>
-    </div>
+    $sql1 = "SELECT productos.Nombre,(marca.Nombre) as marca,registro_productos.* FROM `registro_productos` INNER JOIN productos ON registro_productos.ID_Producto=productos.ID INNER JOIN marca ON productos.ID_Marca=marca.ID where ID_Almacen=$id_almacen ORDER BY registro_productos.ID DESC LIMIT 10 OFFSET 3;";
+    $result1 = mysqli_query($conexion, $sql1);
+
+    if ($result1->num_rows > 0) {
+        echo ' <h2 style="text-align:center">Ultimos Productos</h2>';
+        echo '<div class="data-container total">';
+        echo "<table";
+        while ($mostrar2 = mysqli_fetch_array($result1)) {
+    ?>
+            <tr>
+                <td><?php echo $mostrar2['Nombre'] ?></td>
+                <td><?php echo $mostrar2['marca'] ?></td>
+                <td>$<?php echo number_format($mostrar2['Valor'], 0, ',', '.') ?></td>
+                <td><?php echo date('Y-m-d', strtotime($mostrar2['Fecha_Registro'])) ?></td>
+            </tr>
+    <?php
+        }
+        echo "</table>";
+        echo "</div>";
+    }
+    ?>
 
 
     <script type="text/javascript">
