@@ -54,6 +54,58 @@ include 'bd.php';
     }
     ?>
     <div class="contenedor">
+        <?php
+        // Consulta SQL para obtener los datos de 'Valor' y 'Fecha_Historial'
+        $sql = "SELECT historial_productos.Valor, historial_productos.Diferencia, historial_productos.Fecha_Historial 
+        FROM historial_productos 
+        INNER JOIN registro_productos ON registro_productos.ID = historial_productos.ID_Registro 
+        WHERE registro_productos.ID_Almacen = ? AND registro_productos.ID_Producto = 3 
+        ORDER BY historial_productos.ID ASC";
+
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("i", $id_almacen);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        $output = [];
+        $date = [];
+        $diferencia_con_signo = '0';
+        $color = "black";
+
+        if ($resultado->num_rows > 0) {
+            while ($row = $resultado->fetch_assoc()) {
+                $output[] = $row['Valor'];
+                $date[] = date('Y-m-d', strtotime($row['Fecha_Historial']));
+                $diferencia = $row['Diferencia'];
+            }
+
+            // Construir la cadena de datos para 'Valor'
+            $output_data = implode(",", array_map(function ($value) {
+                return "'" . $value . "'";
+            }, $output));
+            $output = "data: [" . $output_data . "]";
+
+            // Construir la cadena de datos para 'Fecha_Historial'
+            $date_data = implode(",", array_map(function ($value) {
+                return "'" . $value . "'";
+            }, $date));
+            $date = "data: [" . $date_data . "]";
+
+            // Procesamiento adicional para la diferencia
+            if ($diferencia > 0) {
+                $diferencia_con_signo = '+' . $diferencia;
+                $color = "red";
+            } elseif ($diferencia < 0) {
+                $diferencia_con_signo = '-' . abs($diferencia);
+                $color = "green";
+            }
+            $texto = "Diferencia: {a|" . $diferencia_con_signo . "}";
+        } else {
+            $output = "data: [0]";
+            $date = "data: [0]";
+            $texto = "Sin Datos Aun";
+        }
+        ?>
         <div id="pan" class="pan div"></div>
 
         <div class="div">
@@ -185,10 +237,10 @@ include 'bd.php';
         var myChart = echarts.init(document.getElementById('pan'));
         //SELECT * FROM `registro_productos` where ID_Almacen="1" AND ID_Producto="3"
         // Specify the configuration items and data for the chart
-        var option = {
+        option = {
             xAxis: {
                 type: 'category',
-                data: ['12-02-2022', '13-04-2024']
+                <?php echo $date ?>,
             },
             yAxis: {
                 type: 'value'
@@ -198,8 +250,8 @@ include 'bd.php';
                 formatter: '{a} <br /> {b}: <span style="color: black;text-align:center">{c}</span> '
             },
             series: [{
-                data: [150, 350],
-                name: 'Valor del',
+                <?php echo $output ?>,
+                name: 'Valor del Pan',
                 type: 'line',
                 emphasis: {
                     itemStyle: {
@@ -211,11 +263,11 @@ include 'bd.php';
             }],
             title: {
                 text: 'Precio del Kilo de Pan',
-                subtext: 'Diferencia: {a|+200}',
+                subtext: ' <?php echo $texto ?>',
                 subtextStyle: {
                     rich: {
                         a: {
-                            color: 'red', // Mismo color que el texto principal
+                            color: ' <?php echo $color ?>', // Mismo color que el texto principal
                             fontSize: 16,
                             fontWeight: 'bold'
                         }
@@ -226,7 +278,6 @@ include 'bd.php';
                 left: 'center',
                 z: 100
             }
-
         };
 
         // Display the chart using the configuration items and data just specified.
