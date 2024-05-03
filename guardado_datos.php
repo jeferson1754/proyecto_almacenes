@@ -73,6 +73,8 @@ if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
         } else {
             $id_marca = $valores3['ID'];
         }
+    } else if ($marca == "") {
+        $id_marca = 1;
     }
 
     echo "ID Marca: " . $id_marca . "<br>";

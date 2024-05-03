@@ -71,12 +71,12 @@ include 'bd.php';
                                     Nombre de la Tienda:
                                 </label>
                                 <input type="text" name="nombre_almacen" id="nombre" list="nombres" class="form-control" required>
-                                <datalist id="productos">
+                                <datalist id="nombres">
                                     <?php
-                                    $productos = $conexion->query("SELECT CONCAT(productos.Nombre, ' - ', marca.Nombre) AS Nombre FROM productos INNER JOIN marca ON marca.ID = productos.ID_Marca;");
+                                    $tiendas = $conexion->query("SELECT DISTINCT Nombre_Almacen FROM `tiendas`;");
 
-                                    foreach ($productos as $producto) {
-                                        echo "<option value='" . $producto['Nombre'] . "'></option>";
+                                    foreach ($tiendas as $tienda) {
+                                        echo "<option value='" . $tienda['Nombre_Almacen'] . "'></option>";
                                     }
 
                                     ?>
@@ -91,7 +91,7 @@ include 'bd.php';
                                 <input type="text" name="nombre_producto" id="producto" list="productos" class="form-control" required>
                                 <datalist id="productos">
                                     <?php
-                                    $productos = $conexion->query("SELECT DISTINCT Nombre FROM `productos`;");
+                                    $productos = $conexion->query("SELECT CONCAT(productos.Nombre, ' - ', marca.Nombre) AS Nombre FROM productos INNER JOIN marca ON marca.ID = productos.ID_Marca;");
 
                                     foreach ($productos as $producto) {
                                         echo "<option value='" . $producto['Nombre'] . "'></option>";
