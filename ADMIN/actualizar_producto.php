@@ -90,11 +90,13 @@ if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
         } else {
             $id_marca = $valores3['ID'];
         }
+    } else if ($marca == "") {
+        $id_marca = 1;
     }
 
     echo "ID Marca: " . $id_marca . "<br>";
 
-    //INSERTAR MARCA EN  PRODUCTOS
+    //ACTUALIZAR MARCA EN  PRODUCTOS
     try {
         $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -107,7 +109,7 @@ if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
     }
 
 
-    //INSERTAR DATOS EN REGISTRO DE PRODUCTOS
+    //ACTUALIZAR DATOS EN REGISTRO DE PRODUCTOS
     try {
         $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

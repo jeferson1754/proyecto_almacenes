@@ -79,7 +79,7 @@ if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
 
     echo "ID Marca: " . $id_marca . "<br>";
 
-    //INSERTAR MARCA EN  PRODUCTOS
+    //ACTUALIZAR  MARCA EN  PRODUCTOS
     try {
         $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -91,34 +91,97 @@ if ($nombre_almacen != NULL or $nombre_producto != NULL or $precio != NULL) {
         $conn = null;
     }
 
-    //INSERTAR DATOS EN REGISTRO DE PRODUCTOS
+
+    // Consulta para verificar si el producto ya está registrado en el almacén
+    $registro_producto = $conexion->query("SELECT * FROM `registro_productos` WHERE ID_Almacen='$id_almacen' AND ID_Producto='$id_producto'");
+
+    // Determinar si el producto ya existe en el registro
+    $producto_existente = $registro_producto->fetch_assoc();
+
     try {
+        // Configurar la conexión PDO una vez
         $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO `registro_productos` (`ID`, `ID_Almacen`, `ID_Producto`, `Valor`, `Fecha_Registro`)
- VALUES ( NULL ,'" . $id_almacen . "','" . $id_producto . "','" . $precio . "','" . $fecha_hora_actual . "')";
-        $conn->exec($sql);
-        $last_id_registro_productos = $conn->lastInsertId();
-        echo $sql . "<br>";
-        $conn = null;
+
+        if (!$producto_existente) {
+            // Si el producto no está registrado, insertar un nuevo registro
+            $sql = "INSERT INTO `registro_productos` (`ID_Almacen`, `ID_Producto`, `Valor`, `Fecha_Registro`) 
+                    VALUES (:id_almacen, :id_producto, :valor, :fecha_registro)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':id_almacen', $id_almacen);
+            $stmt->bindParam(':id_producto', $id_producto);
+            $stmt->bindParam(':valor', $precio);
+            $stmt->bindParam(':fecha_registro', $fecha_hora_actual);
+            $stmt->execute();
+
+            $id_registro_productos = $conn->lastInsertId();
+            echo "Producto registrado con ID: $id_registro_productos<br>";
+        } else {
+            // Si el producto ya está registrado, actualizar el valor y la fecha
+            $sql = "UPDATE `registro_productos` 
+                    SET Valor = :valor, Fecha_Registro = :fecha_registro 
+                    WHERE ID = :id_registro";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':valor', $precio);
+            $stmt->bindParam(':fecha_registro', $fecha_hora_actual);
+            $stmt->bindParam(':id_registro', $producto_existente['ID']);
+            $stmt->execute();
+            $id_registro_productos = $producto_existente['ID'];
+            echo "Producto actualizado: $sql<br>";
+        }
     } catch (PDOException $e) {
-        $conn = null;
+        echo "Error: " . $e->getMessage() . "<br>";
+    } finally {
+        if (isset($conn)) {
+            $conn = null; // Cerrar la conexión
+        }
     }
 
-    //INSERTAR DATOS EN HISTORIAL DE PRODUCTOS
-    try {
-        $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO `historial_productos` (`ID`, `ID_Registro`, `Valor`, `Fecha_Historial`)
-     VALUES ( NULL ,'" . $last_id_registro_productos . "','" . $precio . "','" . $fecha_hora_actual . "')";
-        $conn->exec($sql);
-        echo $sql . "<br>";
-        $conn = null;
-    } catch (PDOException $e) {
-        $conn = null;
+
+    //HISTORIAL DE PRODUCTO
+    $registro = $conexion->query("SELECT * FROM `historial_productos` WHERE ID_Registro='$id_registro_productos' ORDER BY `historial_productos`.`ID` DESC LIMIT 1");
+    $monto = $registro->fetch_assoc();
+
+    if (!$monto) {
+        $diferencia = "0";
+    } else {
+        $valor_anterior = $monto['Valor'];
+
+        $diferencia = $precio - $valor_anterior;
+
+        echo $valor_anterior . '<br>' . $precio . '<br>' . $diferencia . '<br>';
+    }
+
+    if ($diferencia != 0) {
+        //INSERTAR DATOS EN HISTORIAL DE PRODUCTOS
+        try {
+            $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "INSERT INTO `historial_productos` (`ID`, `ID_Registro`, `Valor`,`Diferencia`,  `Fecha_Historial`)
+                VALUES ( NULL ,'" . $id_registro_productos . "','" . $precio . "','" . $diferencia . "','" . $fecha_hora_actual . "')";
+            $conn->exec($sql);
+            echo $sql . "<br>";
+            $conn = null;
+        } catch (PDOException $e) {
+            $conn = null;
+        }
+    } else {
+        //INSERTAR DATOS EN HISTORIAL DE PRODUCTOS
+        try {
+            $conn = new PDO("mysql:host=$servidor;dbname=$basededatos", $usuario, $password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "INSERT INTO `historial_productos` (`ID`, `ID_Registro`, `Valor`, `Fecha_Historial`)
+     VALUES ( NULL ,'" . $id_registro_productos . "','" . $precio . "','" . $fecha_hora_actual . "')";
+            $conn->exec($sql);
+            echo $sql . "<br>";
+            $conn = null;
+        } catch (PDOException $e) {
+            $conn = null;
+        }
     }
 }
 
+/**/
 
 //Redirigir a la página index.html
 header("Location: index.php");
