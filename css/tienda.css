@@ -37,12 +37,52 @@
     .contenedor {
         flex-direction: column;
     }
+
+    .image-container {
+        margin-right: 0px;
+        width: 100%;
+        height: 20rem;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .div {
+        margin: 5px !important;
+        width: 95% !important;
+    }
+
+    #pan{
+        width: 80%;
+    }
+
+    .div table {
+        font-size: 15px !important;
+    }
+
+    .div td {
+        padding: 0px !important;
+        width: 0px !important;
+        border-bottom: 1px solid black;
+    }
+
+    .total {
+        font-size: 15px;
+        width: 95% !important;
+        margin: auto !important;
+    }
+
+    .div h2, h2, p {
+        font-size: 15px;
+    }
+
 }
 
 
 .div table {
     border-collapse: collapse;
-    width: 400px;
+    max-width: 400px;
     height: max-content;
     font-size: 20px;
     margin: 0 auto;
@@ -62,7 +102,6 @@
 .div {
     flex: 1;
     width: 100%;
-    max-width: 500px;
     height: 300px;
     position: relative;
     background: #fff;

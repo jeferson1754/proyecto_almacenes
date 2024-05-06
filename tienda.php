@@ -18,11 +18,17 @@ include 'bd.php';
     <title>Datos Almacen</title>
 </head>
 <style>
-
+    #chart-container {
+        position: relative;
+        height: 50vh;
+        overflow: hidden;
+    }
 </style>
 
 <body>
     <?php
+
+
     $sql1 = "SELECT * FROM tiendas WHERE ID=$id_almacen;";
     $result1 = mysqli_query($conexion, $sql1);
 
@@ -45,7 +51,21 @@ include 'bd.php';
                 </div>
                 <div>
 
-                    <h3>Detalles:<?php echo $mostrar2['Acepta_Tarjetas'] ?> - Checkbox(CajaVecina, Vende Cigarros,etc...)</h3>
+                    <h3>Detalles:<br></h3>
+                    <?php // Ejemplo de una cadena con detalles separados por comas
+                    $detalles = $mostrar2['Detalles']; // Contiene "Acepta_Tarjetas, Caja_Vecina, ..."
+
+                    // Divide la cadena en un array de partes usando la coma como delimitador
+                    $detallesArray = explode(',', $detalles); // Esto crea un array de elementos separados por comas
+
+
+                    // También puedes recorrer el array para obtener todos los elementos
+                    foreach ($detallesArray as $detalle) {
+                        $detalle = trim($detalle); // Asegúrate de eliminar espacios adicionales
+                        echo "<p> $detalle</p>"; // Imprimir cada detalle por separado
+                    }
+
+                    ?>
 
                 </div>
             </div>
@@ -106,8 +126,9 @@ include 'bd.php';
             $texto = "Sin Datos Aun";
         }
         ?>
-        <div id="pan" class="pan div"></div>
-
+        <div class="div">
+            <div id="chart-container"></div>
+        </div>
         <div class="div">
             <h2>LOS ULTIMOS 3 PRODUCTOS</h2>
             <table>
@@ -119,8 +140,11 @@ include 'bd.php';
                 while ($mostrar2 = mysqli_fetch_array($result1)) {
                 ?>
                     <tr>
-                        <td><?php echo $mostrar2['Nombre'] ?></td>
-                        <td><?php echo $mostrar2['marca'] ?></td>
+                        <td><?php echo $mostrar2['Nombre'];
+                            if ($mostrar2['marca'] != "") {
+                                echo " - " . $mostrar2['marca'];
+                            }
+                            ?></td>
                         <td>$<?php echo number_format($mostrar2['Valor'], 0, ',', '.') ?></td>
                     </tr>
                 <?php
@@ -219,10 +243,20 @@ include 'bd.php';
         while ($mostrar2 = mysqli_fetch_array($result1)) {
     ?>
             <tr>
-                <td><?php echo $mostrar2['Nombre'] ?></td>
-                <td><?php echo $mostrar2['marca'] ?></td>
+                <td><?php echo $mostrar2['Nombre'];
+                    if ($mostrar2['marca'] != "") {
+                        echo " - " . $mostrar2['marca'];
+                    }
+                    ?></td>
                 <td>$<?php echo number_format($mostrar2['Valor'], 0, ',', '.') ?></td>
-                <td><?php echo date('Y-m-d', strtotime($mostrar2['Fecha_Registro'])) ?></td>
+                <td>
+                    <?php
+                    // Formatear la fecha en el formato deseado
+                    $fechaFormateada = date('d-m-Y', strtotime($mostrar2['Fecha_Registro']));
+                    echo $fechaFormateada;
+                    ?>
+                </td>
+
             </tr>
     <?php
         }
@@ -234,9 +268,15 @@ include 'bd.php';
 
     <script type="text/javascript">
         // Initialize the echarts instance based on the prepared dom
-        var myChart = echarts.init(document.getElementById('pan'));
-        //SELECT * FROM `registro_productos` where ID_Almacen="1" AND ID_Producto="3"
-        // Specify the configuration items and data for the chart
+        var dom = document.getElementById('chart-container');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+        var option;
+
         option = {
             xAxis: {
                 type: 'category',
@@ -279,6 +319,12 @@ include 'bd.php';
                 z: 100
             }
         };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
 
         // Display the chart using the configuration items and data just specified.
         myChart.setOption(option);
