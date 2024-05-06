@@ -53,10 +53,6 @@
         width: 95% !important;
     }
 
-    #pan{
-        width: 80%;
-    }
-
     .div table {
         font-size: 15px !important;
     }
@@ -73,9 +69,17 @@
         margin: auto !important;
     }
 
-    .div h2, h2, p {
+    .div h2,
+    h2,
+    p {
         font-size: 15px;
     }
+
+    #chart-container {
+        width:99%;
+        margin: auto;
+    }
+
 
 }
 
