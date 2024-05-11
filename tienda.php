@@ -27,47 +27,41 @@ include 'bd.php';
 
 <body>
     <?php
+    $sql = "SELECT t.*, ct.Promedio 
+        FROM tiendas t 
+        LEFT JOIN calificaciones_tiendas ct ON t.ID = ct.ID_Tienda 
+        WHERE t.ID = $id_almacen;";
+    $result = mysqli_query($conexion, $sql);
 
-
-    $sql1 = "SELECT * FROM tiendas WHERE ID=$id_almacen;";
-    $result1 = mysqli_query($conexion, $sql1);
-
-    while ($mostrar2 = mysqli_fetch_array($result1)) {
+    while ($row = mysqli_fetch_assoc($result)) {
     ?>
         <div class="container">
             <div class="image-container">
-                <img src="<?php echo $mostrar2['Link_Imagen'] ?>" alt="Sin Imagen">
+                <img src="<?php echo $row['Link_Imagen'] ?>" alt="Sin Imagen">
             </div>
             <div class="data-container">
                 <div>
                     <strong>
-                        <h1><?php echo $mostrar2['Nombre_Almacen'] ?></h1>
+                        <h1><?php echo $row['Nombre_Almacen'] ?></h1>
                     </strong>
                 </div>
                 <div>
-
-                    <h2>Direccion:<?php echo $mostrar2['Direccion'] ?></h2>
-
+                    <h2>Dirección: <?php echo $row['Direccion'] ?></h2>
                 </div>
                 <div>
-
                     <h3>Detalles:<br></h3>
-                    <?php // Ejemplo de una cadena con detalles separados por comas
-                    $detalles = $mostrar2['Detalles']; // Contiene "Acepta_Tarjetas, Caja_Vecina, ..."
-
-                    // Divide la cadena en un array de partes usando la coma como delimitador
-                    $detallesArray = explode(',', $detalles); // Esto crea un array de elementos separados por comas
-
-
-                    // También puedes recorrer el array para obtener todos los elementos
+                    <?php
+                    $detalles = $row['Detalles'];
+                    $detallesArray = explode(',', $detalles);
                     foreach ($detallesArray as $detalle) {
-                        $detalle = trim($detalle); // Asegúrate de eliminar espacios adicionales
-                        echo "<p> $detalle</p>"; // Imprimir cada detalle por separado
+                        $detalle = trim($detalle);
+                        echo "<p> $detalle</p>";
                     }
-
                     ?>
-
                 </div>
+                <?php if (!empty($row['Promedio'])) { ?>
+                    <h1><?php echo $row['Promedio'] ?>⭐</h1>
+                <?php } ?>
             </div>
         </div>
     <?php
@@ -151,46 +145,6 @@ include 'bd.php';
                 }
                 ?>
             </table>
-        </div>
-
-        <div class="rating-box div">
-            <header>Calificacion del Almacen</header>
-            <div class="product-stars-container">
-                <div class="stars product-stars">
-                    <!-- Estrellas del anime -->
-                    <?php
-                    /*
-                $id_anime = $fila["id"];
-
-                $sql = "SELECT promedio FROM calificaciones WHERE ID_Anime=$id_anime"; // Ajusta el ID según tu estructura de base de datos
-                //echo $sql;
-                $result = $conexion->query($sql);
-                
-                // Obtener y almacenar las calificaciones en el array
-                if ($result->num_rows > 0) {
-                    // Obtener la primera fila (solo debería haber una fila si estás buscando un ID específico)
-                    $row = $result->fetch_assoc();
-
-                    $calificacion = $row["promedio"];
-                } else {
-                    $calificacion = 0;
-                }
-                */
-                    $calificacion = 5;
-
-                    // Establecer el número de estrellas activas según la calificación
-                    for ($i = 1; $i <= 5; $i++) {
-                        if ($i <= $calificacion) {
-                            echo '<i class="fa-solid fa-star active"></i>';
-                        } else {
-                            echo '<i class="fa-solid fa-star"></i>';
-                        }
-                    }
-                    ?>
-                </div>
-            </div>
-            <!-- Texto de calificación del anime -->
-            <div class="rating-text product-rating">Promedio: <span class="product-rating-value"><?php echo $calificacion ?></span></div>
         </div>
 
     </div>
