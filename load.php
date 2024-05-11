@@ -25,7 +25,7 @@ if ($campo != null) {
 
 
 
-$sql = "SELECT " . implode(",", $columns) . " FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID $where ORDER BY `rp`.`ID` DESC;";
+$sql = "SELECT " . implode(",", $columns) . " FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID $where AND p.ID !=3 ORDER BY `rp`.`ID` DESC, `rp`.`Valor` ASC;";
 //echo $sql;
 
 $resultado = $conexion->query($sql);

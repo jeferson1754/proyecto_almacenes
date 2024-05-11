@@ -24,6 +24,10 @@ include 'bd.php';
                 Productos
                 <div class="menu-line display" id="linea-option-1"></div>
             </div>
+            <div class="menu-option" onclick="showOption(5)">
+                Pan
+                <div class="menu-line" id="linea-option-5"></div>
+            </div>
             <div class="menu-option" onclick="showOption(2)">
                 Almacenes
                 <div class="menu-line" id="linea-option-2"></div>
@@ -36,11 +40,13 @@ include 'bd.php';
                 <a href="./login.html">Login</a>
                 <div class="menu-line" id="linea-option-4"></div>
             </div>
+
         </div>
     </div>
 
 
     <div class="info-container active" id="info-option-1">
+
 
         <figure class="text-center">
             <h1>Lista de Productos</h1>
@@ -125,6 +131,35 @@ include 'bd.php';
 
     </div>
 
+    <div class="info-container" id="info-option-5">
+        <figure class="text-center">
+            <h1>Pan</h1>
+        </figure>
+        <div class="deudores">
+            <?php
+            $sql1 = "SELECT rp.ID,Nombre_Almacen,Nombre,Valor,(a.ID) as ID_Almacen FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID WHERE p.ID = 3 ORDER BY `rp`.`Valor` ASC;";
+            //echo $sql1;
+            $result1 = mysqli_query($conexion, $sql1);
+
+            while ($mostrar2 = mysqli_fetch_array($result1)) {
+            ?>
+
+                <div class="persona-container">
+
+                    <div class="nombre-persona"><?php echo $mostrar2['Nombre'] . '<br> $' . $mostrar2['Valor'] ?></div>
+
+                    <div class="nombre-chico"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
+
+
+                </div>
+
+
+            <?php
+            }
+            ?>
+
+        </div>
+    </div>
     <div class="info-container" id="info-option-2">
         <figure class="text-center">
             <h1>Lista de Almacenes</h1>
