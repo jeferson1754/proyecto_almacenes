@@ -25,40 +25,21 @@
 
 .circle-container {
   margin-right: auto;
-  /* Empuja el círculo hacia la derecha */
+
 }
 
 .circle {
   width: 25px;
-  /* Ajusta el tamaño del círculo según sea necesario */
   height: auto;
   border-radius: 50%;
-  /* Hace que el div sea un círculo */
   background-color: #000;
-  /* Color de fondo del círculo */
   color: #fff;
-  /* Color del texto dentro del círculo */
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 100px;
   font-size: 15px;
   margin-bottom: 15px;
-  /* Espacio entre el texto y el círculo */
-}
-
-
-
-@media screen and (max-width: 600px) {
-  .persona-container {
-    padding: 5px;
-    width: 130px;
-    margin: 5px;
-  }
-
-  .circle {
-    margin-left: 90px;
-  }
 }
 
 .nombre-persona {
@@ -71,7 +52,6 @@
   font-weight: bold;
 }
 
-
 a {
   text-decoration: none !important;
   color: black !important;
@@ -83,20 +63,62 @@ a:hover {
 
 .button {
   color: #ecf0f1;
-  font-size: 30px;
+  font-size: 35px;
   background-color: #80D39B;
   border: 1px solid #6BAA75;
   border-radius: 5px;
   padding: 10px;
-  width: 80%;
-  height: 100px;
+  width: 500px;
+  height: 80px;
   align-items: center;
   box-shadow: 0px 6px 0px #6BAA75;
   transition: all .1s;
+  line-height: 2px;
+  justify-content: center;
+  align-items: center;
 }
 
 .button:active {
   box-shadow: 0px 2px 0px #6BAA75;
+  position: relative;
+  top: 2px;
+}
+
+.button-plus {
+  color: #ecf0f1;
+  font-size: 50px;
+  background-color: #80D39B;
+  border: 1px solid #6BAA75;
+  border-radius: 5px;
+  padding: 10px;
+  width: 80px;
+  height: 80px;
+  align-items: center;
+  box-shadow: 0px 6px 0px #6BAA75;
+  transition: all .1s;
+  line-height: 2px;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-plus:active {
+  box-shadow: 0px 2px 0px #6BAA75;
+  position: relative;
+  top: 2px;
+}
+
+.filtrar {
+  background-color: #797d7f;
+  border: 1px solid #8c8e8f42;
+  box-shadow: 0px 6px 0px #66686954;
+}
+
+.filtrar i {
+  font-size: 40px;
+}
+
+.filtrar:active {
+  box-shadow: 0px 2px 0px #8c8e8f42;
   position: relative;
   top: 2px;
 }
@@ -196,13 +218,14 @@ header {
   margin-top: 20px;
 }
 
-.search-form input[type="search"] {
+.search-form input[type="search"],
+select {
   padding: 10px;
-  font-size: 16px;
+  font-size: 26px !important;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 300px;
-  margin-right: 5px;
+  width: 500px;
+  margin: 0 15px 0 15px;
 }
 
 /* Boton desabilitado*/
@@ -210,9 +233,63 @@ header {
 /* Agrega un estilo para el botón cuando tenga la clase 'deshabilitado' */
 .btn.deshabilitado {
   background-color: gray !important;
-  /* Cambia el color de fondo */
   color: white !important;
-  /* Cambia el co lor del texto */
   border-color: gray !important;
-  /* Cambia el color del borde */
+}
+
+
+/* CSS para mostrar el formulario de búsqueda en ciertas condiciones */
+
+.ocultar {
+  display: none;
+}
+
+.mostrar {
+  display: flex;
+}
+
+@media screen and (max-width: 600px) {
+  .persona-container {
+    padding: 5px;
+    width: 130px;
+    margin: 5px;
+  }
+
+  .circle {
+    margin-left: 90px;
+  }
+
+  .search-form {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-form input[type="search"] {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  select {
+    width: 80%;
+    margin: auto !important;
+  }
+
+  div.ocultar {
+    display: block;
+  }
+
+  .mostrar {
+    display: none !important;
+  }
+
+  .button-plus,
+  .filtrar {
+    margin: auto;
+  }
+
+  .mostrar #campo,
+  .ocultar #campo {
+    display: block;
+    /* Mostrar el formulario en contenedores mostrar/ocultar según sea necesario */
+  }
 }

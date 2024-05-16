@@ -52,15 +52,41 @@ include 'bd.php';
             <h1>Lista de Productos</h1>
         </figure>
         <!-- Button trigger modal -->
+
+        <div class="ocultar">
+            <div class="d-flex justify-content-center">
+                <button type="button" class="button-plus" data-bs-toggle="modal" data-bs-target="#ModalNuevo">
+                    +
+                </button>
+
+                <button type="button" class="button-plus filtrar" onclick="toggleForm()">
+                    <i class="fa-solid fa-filter"></i>
+                </button>
+            </div>
+        </div>
         <div class="d-flex justify-content-center">
-            <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#ModalNuevo">
-                Nuevo Producto
+            <button type="button" class="button-plus mostrar" data-bs-toggle="modal" data-bs-target="#ModalNuevo">
+                +
+            </button>
+
+            <form action="" method="POST" class="search-form">
+                <input type="search" name="campo" id="campo" placeholder="Buscar...">
+            </form>
+
+            <button type="button" class="button-plus filtrar mostrar" onclick="toggleForm()">
+                <i class="fa-solid fa-filter"></i>
             </button>
         </div>
 
-        <form action="" method="POST" class="search-form">
-            <input type="search" name="campo" id="campo" placeholder="Buscar...">
-        </form>
+        <div class="justify-content-center">
+            <form action="" method="POST" id="filtro" class="search-form ocultar">
+                <select name="filtro" id="filtro">
+                    <option value='Alimentos'>Alimentos</option>
+                    <option value='Bebidas'>Bebidas</option>
+                    <option value='Otros'>Otros</option>
+                </select>
+            </form>
+        </div>
 
         <!-- Modal -->
         <div class="modal fade" id="ModalNuevo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -156,6 +182,7 @@ include 'bd.php';
 
             <?php
             }
+
             ?>
 
         </div>
@@ -379,6 +406,11 @@ include 'bd.php';
                 .then(data => {
                     content.innerHTML = data
                 }).catch(e => console.log(e))
+        }
+
+        function toggleForm() {
+            var form = document.getElementById("filtro");
+            form.classList.toggle("ocultar");
         }
     </script>
 </body>
