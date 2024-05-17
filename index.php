@@ -56,7 +56,7 @@ include 'bd.php';
         <div class="ocultar">
             <div class="d-flex justify-content-center">
                 <button type="button" class="button-plus" data-bs-toggle="modal" data-bs-target="#ModalNuevo">
-                    +
+                    <i class="fa-solid fa-plus"></i>
                 </button>
 
                 <button type="button" class="button-plus filtrar" onclick="toggleForm()">
@@ -66,7 +66,7 @@ include 'bd.php';
         </div>
         <div class="d-flex justify-content-center">
             <button type="button" class="button-plus mostrar" data-bs-toggle="modal" data-bs-target="#ModalNuevo">
-                +
+                <i class="fa-solid fa-plus"></i>
             </button>
 
             <form action="" method="POST" class="search-form">
@@ -79,11 +79,17 @@ include 'bd.php';
         </div>
 
         <div class="justify-content-center">
-            <form action="" method="POST" id="filtro" class="search-form ocultar">
-                <select name="filtro" id="filtro">
-                    <option value='Alimentos'>Alimentos</option>
-                    <option value='Bebidas'>Bebidas</option>
-                    <option value='Otros'>Otros</option>
+            <form action="categorias.php" method="POST" id="filtro" class="search-form ocultar">
+                <select name="filtro" id="filtro" onchange="this.form.submit()">
+                    <option value="">Seleccione</option>
+                    <?php
+                    $categorias = $conexion->query("SELECT * FROM `categorias`;");
+
+                    foreach ($categorias as $categoria) {
+                        echo "<option value='" . $categoria['ID'] . "'>" . $categoria['Nombre'] . "</option>";
+                    }
+
+                    ?>
                 </select>
             </form>
         </div>
