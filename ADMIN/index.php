@@ -48,7 +48,7 @@ require 'permisos.php';
                     <?php
                     $variable_id = $mostrar2["ID_Almacen"]; ?>
                     <a href="tienda_admin.php?id=<?php echo $variable_id; ?>">
-                        <div class="nombre-chico mostrar"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
+                        <div class="nombre-chico"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
                     </a>
                     <div class="contenido">
                         <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditarProducto<?php echo $mostrar2['ID']; ?>">
