@@ -76,6 +76,7 @@ a:hover {
   line-height: 2px;
   justify-content: center;
   align-items: center;
+  margin-right: 20px;
 }
 
 .button:active {
@@ -248,6 +249,16 @@ select {
   display: flex;
 }
 
+
+.select2-container--default .select2-selection--multiple {
+  margin-top: 20px;
+  line-height: 35px;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+  height: 25px !important;
+}
+
 @media screen and (max-width: 600px) {
   .persona-container {
     padding: 5px;
@@ -292,4 +303,17 @@ select {
     display: block;
     /* Mostrar el formulario en contenedores mostrar/ocultar según sea necesario */
   }
+
+  .button {
+    margin-right: 0px;
+  }
+
+  .extendido {
+    margin: 20px 0 0 0;
+  }
+
+  .select2-container .select2-search--inline .select2-search__field {
+    height: 40px !important;
+  }
+
 }

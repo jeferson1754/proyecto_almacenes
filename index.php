@@ -13,6 +13,12 @@ include 'bd.php';
     <link rel="stylesheet" href="./css/checkbox.css?v=<?php echo time(); ?>">
     <script src="https://kit.fontawesome.com/8846655159.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluir jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Incluir Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Incluir Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <title>Tiendas</title>
 </head>
 
@@ -202,6 +208,26 @@ include 'bd.php';
             <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#ModalNuevoAlmacen">
                 Nuevo Almacen
             </button>
+            <button type="button" class="button-plus filtrar mostrar" onclick="toggleForm2()">
+                <i class="fa-solid fa-filter"></i>
+            </button>
+
+        </div>
+        <div class="ocultar">
+            <div class="d-flex justify-content-center">
+                <button type="button" class="button filtrar extendido" onclick="toggleForm2()">
+                    <i class="fa-solid fa-filter"></i> Filtrar Almacenes
+                </button>
+            </div>
+        </div>
+        <div id="contenedor_almacen" class="justify-content-center" style="display:none;">
+            <select class="js-example-basic-multiple" name="filtro_almacen[]" id="filtro_almacen" multiple="multiple" style="width: 100%;">
+                <option value="acepta_tarjetas">Acepta Tarjetas</option>
+                <option value="caja_vecina">Caja Vecina</option>
+                <option value="carga_bip">Carga Bip</option>
+                <option value="vende_cigarros">Vende Cigarros</option>
+                <option value="vende_alcohol">Vende Alcohol</option>
+            </select>
         </div>
         <!-- Modal -->
         <div class="modal fade" id="ModalNuevoAlmacen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -245,7 +271,7 @@ include 'bd.php';
             </div>
         </div>
 
-        <div class="deudores">
+        <div class="deudores" id="tiendas_almacenes">
             <?php
             $sql1 = "SELECT t.*, COUNT(rp.ID) AS total_productos FROM tiendas t LEFT JOIN registro_productos rp ON t.ID = rp.ID_Almacen WHERE t.Tipo = 'Almacen' GROUP BY t.ID ORDER BY total_productos DESC;";
             $result1 = mysqli_query($conexion, $sql1);
@@ -418,6 +444,36 @@ include 'bd.php';
             var form = document.getElementById("filtro");
             form.classList.toggle("ocultar");
         }
+
+        function toggleForm2() {
+            var form = document.getElementById("contenedor_almacen");
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({
+                placeholder: 'Selecciona características',
+                allowClear: true
+            });
+
+            $('#filtro_almacen').on('change', function() {
+                var filtros = $(this).val();
+                $.ajax({
+                    url: 'filtro_tiendas.php',
+                    type: 'POST',
+                    data: {
+                        filtros: filtros
+                    },
+                    success: function(response) {
+                        $('#tiendas_almacenes').html(response);
+                    }
+                });
+            });
+        });
     </script>
 </body>
 
