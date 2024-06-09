@@ -137,7 +137,7 @@ a:hover {
 .boton-volver {
   font-family: Arial, sans-serif;
   display: inline-block;
-  padding: 10px 20px;
+  padding: 8px 12px;
   background-color: #007BFF;
   color: #fff;
   border: none;
@@ -145,7 +145,6 @@ a:hover {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s;
-  margin: 10px 5px;
 }
 
 .boton-volver:hover {
@@ -220,7 +219,7 @@ header {
 }
 
 .search-form input[type="search"],
-select {
+.filtro {
   padding: 10px;
   font-size: 26px !important;
   border: 1px solid #ccc;
@@ -259,6 +258,41 @@ select {
   height: 25px !important;
 }
 
+
+table {
+  width: 100% !important;
+  background-color: white !important;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  background-color: #ddd !important;
+}
+
+tr:hover td,
+tr:hover a {
+  background-color: #8C9A9E !important;
+  color: white !important;
+}
+
+.gray {
+  background-color: #6c757d;
+}
+
+.gray:hover {
+  background-color: #6c757d94;
+}
+
+.red {
+  background-color: #eb4141;
+}
+
+.red:hover {
+  background-color: #eb4141d0;
+}
+
+
 @media screen and (max-width: 600px) {
   .persona-container {
     padding: 5px;
@@ -280,7 +314,7 @@ select {
     margin: 10px 0;
   }
 
-  select {
+  .filtro {
     width: 80%;
     margin: auto !important;
   }

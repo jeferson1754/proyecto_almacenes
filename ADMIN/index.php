@@ -3,7 +3,7 @@ include '../bd.php';
 require 'permisos.php';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -11,8 +11,9 @@ require 'permisos.php';
     <link rel="stylesheet" href="../css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../css/checkbox.css?v=<?php echo time(); ?>">
     <script src="https://kit.fontawesome.com/8846655159.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Tiendas</title>
+    <title>Admin-Tiendas</title>
 </head>
 
 <body>
@@ -33,40 +34,63 @@ require 'permisos.php';
         <figure class="text-center">
             <h1>Lista de Productos</h1>
         </figure>
+        <table id="example" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Marca</th>
+                    <th>Valor</th>
+                    <th>Almacen</th>
+                    <th>Fecha</th>
 
-        <div class="deudores">
-            <?php
-            $sql1 = "SELECT rp.ID,Nombre_Almacen,Nombre,Valor,(a.ID) as ID_Almacen FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID ORDER BY `rp`.`ID` DESC;";
-            $result1 = mysqli_query($conexion, $sql1);
+                    <th style="text-align: center;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $sql1 = "SELECT rp.ID, a.Nombre_Almacen, p.Nombre, m.Nombre AS Marca, rp.Valor, a.ID AS ID_Almacen, rp.Fecha_Registro FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID INNER JOIN marca m ON p.ID_Marca = m.ID ORDER BY rp.ID DESC;";
+                $result1 = mysqli_query($conexion, $sql1);
 
-            while ($mostrar2 = mysqli_fetch_array($result1)) {
-            ?>
+                while ($mostrar2 = mysqli_fetch_array($result1)) {
+                ?>
+                    <tr>
+                        <td><?php echo $mostrar2['Nombre'] ?></td>
+                        <td><?php echo $mostrar2['Marca'] ?></td>
+                        <td>$<?php echo $mostrar2['Valor'] ?></td>
+                        <td><a href="tienda_admin.php?id=<?php echo $mostrar2["ID_Almacen"]; ?>" target="_blanck"><?php echo $mostrar2['Nombre_Almacen'] ?></a></td>
+                        <td><?php echo $mostrar2['Fecha_Registro'] ?></td>
+                        <td>
+                            <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditarProducto<?php echo $mostrar2['ID']; ?>">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
+                            <?php
+                            $variable = $mostrar2['ID'];
+                            ?>
+                            <a href="historial_producto.php?variable=<?php echo urlencode($variable); ?>" target="_blanck">
+                                <button type="button" class="boton-volver gray">
+                                    <i class="fa fa-bar-chart"></i>
+                                </button>
+                            </a>
 
-                <div class="persona-container">
+                            <button class="boton-volver red" data-bs-toggle="modal" data-bs-target="#Delete<?php echo $mostrar2['ID']; ?>">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
 
-                    <div class="nombre-persona"><?php echo $mostrar2['Nombre'] . '<br> $' . $mostrar2['Valor'] ?></div>
-                    <?php
-                    $variable_id = $mostrar2["ID_Almacen"]; ?>
-                    <a href="tienda_admin.php?id=<?php echo $variable_id; ?>">
-                        <div class="nombre-chico"><?php echo $mostrar2['Nombre_Almacen'] ?></div>
-                    </a>
-                    <div class="contenido">
-                        <button class="boton-volver" data-bs-toggle="modal" data-bs-target="#ModalEditarProducto<?php echo $mostrar2['ID']; ?>">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </button>
-                    </div>
-                </div>
-
-
-            <?php
-                include 'ModalEditar.php';
-            }
-            ?>
-
-        </div>
+                <?php
+                    include 'ModalEditar.php';
+                    include 'ModalDelete.php';
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
     <script>
         let selectedOption = 1;
 
@@ -104,6 +128,41 @@ require 'permisos.php';
 
         // Al cargar la página, mostrar la primera opción por defecto
         showOption(selectedOption);
+        $(document).ready(function() {
+            $('#example').DataTable({
+                    "order": [],
+                    language: {
+                        processing: "Tratamiento en curso...",
+                        search: "Buscar:",
+                        lengthMenu: "Filtro de _MENU_Productos",
+                        info: "Mostrando Productos del _START_ al _END_ de un total de _TOTAL_ Productos",
+                        infoEmpty: "No existen registros",
+                        infoFiltered: "(filtrado de _MAX_ Productos en total)",
+                        infoPostFix: "",
+                        loadingRecords: "Cargando elementos...",
+                        zeroRecords: "No se encontraron los datos de tu busqueda..",
+                        emptyTable: "No hay ningun registro en la tabla",
+                        paginate: {
+                            first: "Primero",
+                            previous: "Anterior",
+                            next: "Siguiente",
+                            last: "Ultimo"
+                        },
+                        aria: {
+                            sortAscending: ": Active para odernar en modo ascendente",
+                            sortDescending: ": Active para ordenar en modo descendente  ",
+                        }
+                    }
+
+
+                }
+
+
+            );
+
+        });
+
+        
     </script>
 </body>
 

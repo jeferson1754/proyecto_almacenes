@@ -86,7 +86,7 @@ include 'bd.php';
 
         <div class="justify-content-center">
             <form action="categorias.php" method="POST" id="filtro" class="search-form ocultar">
-                <select name="filtro" id="filtro" onchange="this.form.submit()">
+                <select name="filtro" id="filtro" class="filtro" onchange="this.form.submit()">
                     <option value="">Seleccione</option>
                     <?php
                     $categorias = $conexion->query("SELECT * FROM `categorias`;");

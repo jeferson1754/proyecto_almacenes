@@ -12,7 +12,7 @@
         <div id="contenedor" class="modal-body">
           <div class="form-group" style="margin-top:-15px">
             <label for="nombre_producto" class="col-form-label">Nombre:</label>
-            <input type="text" name="nombre_producto" id="producto" list="productos" class="form-control" value="<?php echo $mostrar2['Nombre']; ?>" required>
+            <input type="text" name="nombre_producto" id="producto" list="productos" class="form-control" value="<?php echo $mostrar2['Nombre'] . " - " . $mostrar2['Marca']; ?>" required>
             <datalist id="productos">
               <?php
               $productos = $conexion->query("SELECT CONCAT(productos.Nombre, ' - ', marca.Nombre) AS Nombre FROM productos INNER JOIN marca ON marca.ID = productos.ID_Marca;");
@@ -46,7 +46,7 @@
               <label for="fecha_termino_<?php echo $mostrar2['ID']; ?>" class="form-label">Fecha Termino:</label>
               <div style="display: flex; align-items: center;">
                 <input type="date" class="form-control" name="fecha_termino" value="<?php echo $fecha_hora_actual; ?>" id="fecha_termino_<?php echo $mostrar2['ID']; ?>">
-                
+
                 <div class="todo">
                   <label class="container" style="width:80px">
                     <span class="text">Indefinido</span>
