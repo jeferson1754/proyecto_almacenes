@@ -48,7 +48,7 @@ require 'permisos.php';
             </thead>
             <tbody>
                 <?php
-                $sql1 = "SELECT rp.ID, a.Nombre_Almacen, p.Nombre, m.Nombre AS Marca, rp.Valor, a.ID AS ID_Almacen, rp.Fecha_Registro FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID INNER JOIN marca m ON p.ID_Marca = m.ID ORDER BY rp.ID DESC;";
+                $sql1 = "SELECT rp.ID, a.Nombre_Almacen, p.Nombre, m.Nombre AS Marca, rp.Valor, a.ID AS ID_Almacen, rp.Fecha_Registro FROM registro_productos rp INNER JOIN tiendas a ON rp.ID_Almacen = a.ID INNER JOIN productos p ON rp.ID_Producto = p.ID INNER JOIN marca m ON p.ID_Marca = m.ID ORDER BY rp.ID DESC limit 100;";
                 $result1 = mysqli_query($conexion, $sql1);
 
                 while ($mostrar2 = mysqli_fetch_array($result1)) {
@@ -161,8 +161,6 @@ require 'permisos.php';
             );
 
         });
-
-        
     </script>
 </body>
 

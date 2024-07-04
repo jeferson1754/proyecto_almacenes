@@ -17,6 +17,9 @@ require 'permisos.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     <link rel="stylesheet" href="../css/tienda.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="../css/star.css?v=<?php echo time(); ?>">
+    <script src="https://kit.fontawesome.com/8846655159.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Datos Almacen Administrador</title>
 </head>
 <style>
@@ -42,17 +45,17 @@ require 'permisos.php';
             <div class="image-container">
                 <img src="<?php echo $row['Link_Imagen'] ?>" alt="Sin Imagen">
             </div>
-            <div class="data-container">
+            <div class="data-container position-relative">
                 <div>
                     <strong>
                         <h1><?php echo $row['Nombre_Almacen'] ?></h1>
                     </strong>
                 </div>
                 <div>
-                    <h2>Dirección: <?php echo $row['Direccion'] ?></h2>
+                    <h3>Dirección: <?php echo $row['Direccion'] ?></h3>
                 </div>
                 <div>
-                    <h3>Detalles:<br></h3>
+                    <h4>Detalles:<br></h4>
                     <?php
                     $detalles = $row['Detalles'];
                     $detallesArray = explode(',', $detalles);
@@ -65,10 +68,17 @@ require 'permisos.php';
                 <?php if (!empty($row['Promedio'])) { ?>
                     <h1><?php echo $row['Promedio'] ?>⭐</h1>
                 <?php } ?>
+                <button class="btn btn-primary position-absolute bottom-0 end-0" data-bs-toggle="modal" data-bs-target="#ModalEdit_Tienda<?php echo $id_almacen ?>">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+
             </div>
+
         </div>
     <?php
+        include 'ModalEdit_Tienda.php';
     }
+
     ?>
     <div class="contenedor">
         <?php
@@ -130,7 +140,7 @@ require 'permisos.php';
             <h2>LOS ULTIMOS 3 PRODUCTOS</h2>
             <table>
                 <?php
-                $sql1 = "SELECT productos.Nombre,(marca.Nombre) as marca,registro_productos.Valor FROM `registro_productos` INNER JOIN productos ON registro_productos.ID_Producto=productos.ID INNER JOIN marca ON productos.ID_Marca=marca.ID where ID_Almacen=$id_almacen ORDER BY registro_productos.ID DESC LIMIT 3;";
+                $sql1 = "SELECT productos.ID,productos.Nombre,(marca.Nombre) as marca,registro_productos.Valor FROM `registro_productos` INNER JOIN productos ON registro_productos.ID_Producto=productos.ID INNER JOIN marca ON productos.ID_Marca=marca.ID where ID_Almacen=$id_almacen ORDER BY registro_productos.ID DESC LIMIT 3;";
                 //echo $sql1;
                 $result1 = mysqli_query($conexion, $sql1);
 
@@ -143,8 +153,14 @@ require 'permisos.php';
                             }
                             ?></td>
                         <td>$<?php echo number_format($mostrar2['Valor'], 0, ',', '.') ?></td>
+                        <td>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalEdit<?php echo $mostrar2['ID']; ?>">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
+                        </td>
                     </tr>
                 <?php
+                    include 'ModalEdit.php';
                 }
                 ?>
             </table>
@@ -177,8 +193,14 @@ require 'permisos.php';
                         echo "Indefinido";
                     } ?>
                 </td>
+                <td>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalEdit_Prom<?php echo $mostrar2['ID']; ?>">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                </td>
             </tr>
     <?php
+            include 'ModalEdit.php';
         }
         echo "</table>";
         echo "</div>";
@@ -209,9 +231,15 @@ require 'permisos.php';
                     echo $fechaFormateada;
                     ?>
                 </td>
+                <td>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalEdit<?php echo $mostrar2['ID']; ?>">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                </td>
 
             </tr>
     <?php
+            include 'ModalEdit.php';
         }
         echo "</table>";
         echo "</div>";
@@ -298,6 +326,7 @@ require 'permisos.php';
         }
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
