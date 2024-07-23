@@ -300,6 +300,16 @@ tr:hover a {
     margin: 5px;
   }
 
+  .menu-option span {
+    display: none;
+  }
+
+  .menu-option i {
+    font-size: 35px;
+    margin: 8px;
+  }
+
+
   .circle {
     margin-left: 90px;
   }

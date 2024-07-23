@@ -27,23 +27,32 @@ include 'bd.php';
     <div class="menu-container">
         <div class="menu-options">
             <div class="menu-option" onclick="showOption(1)">
-                Productos
+                <i class="fa-solid fa-box"></i>
+                <span>Productos</span>
+
                 <div class="menu-line display" id="linea-option-1"></div>
+
             </div>
             <div class="menu-option" onclick="showOption(5)">
-                Pan
+                <i class="fa-solid fa-bread-slice"></i>
+                <span>Pan</span>
                 <div class="menu-line" id="linea-option-5"></div>
             </div>
             <div class="menu-option" onclick="showOption(2)">
-                Almacenes
+                <i class="fa-solid fa-shop"></i>
+                <span>Almacenes</span>
                 <div class="menu-line" id="linea-option-2"></div>
             </div>
             <div class="menu-option" onclick="showOption(3)">
-                Supermercados
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Supermercados</span>
                 <div class="menu-line" id="linea-option-3"></div>
             </div>
             <div class="menu-option">
-                <a href="./login.html">Login</a>
+                <a href="./login.html">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Login</span>
+                </a>
                 <div class="menu-line" id="linea-option-4"></div>
             </div>
 
