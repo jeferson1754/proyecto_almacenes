@@ -33,7 +33,7 @@
           </div>
           <div class="form-group">
             <label for="precio" class="col-form-label">Valor:</label>
-            <input type="text" name="precio" class="form-control" value="<?php echo $mostrar2['Valor'] ?>">
+            <input type="number" name="precio" class="form-control" value="<?php echo $mostrar2['Valor'] ?>">
           </div>
 
         </div>

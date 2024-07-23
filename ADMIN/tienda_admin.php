@@ -140,7 +140,7 @@ require 'permisos.php';
             <h2>LOS ULTIMOS 3 PRODUCTOS</h2>
             <table>
                 <?php
-                $sql1 = "SELECT productos.ID,productos.Nombre,(marca.Nombre) as marca,registro_productos.Valor FROM `registro_productos` INNER JOIN productos ON registro_productos.ID_Producto=productos.ID INNER JOIN marca ON productos.ID_Marca=marca.ID where ID_Almacen=$id_almacen ORDER BY registro_productos.ID DESC LIMIT 3;";
+                $sql1 = "SELECT registro_productos.ID,productos.Nombre,(marca.Nombre) as marca,registro_productos.Valor FROM `registro_productos` INNER JOIN productos ON registro_productos.ID_Producto=productos.ID INNER JOIN marca ON productos.ID_Marca=marca.ID where ID_Almacen=$id_almacen ORDER BY registro_productos.ID DESC LIMIT 3;";
                 //echo $sql1;
                 $result1 = mysqli_query($conexion, $sql1);
 
@@ -200,7 +200,7 @@ require 'permisos.php';
                 </td>
             </tr>
     <?php
-            include 'ModalEdit.php';
+            include 'ModalEdit_Prom.php';
         }
         echo "</table>";
         echo "</div>";

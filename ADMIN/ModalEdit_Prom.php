@@ -17,8 +17,10 @@
       </style>
 
 
-      <form method="POST" action="#">
+      <form method="POST" action="update_promo.php">
         <input type="hidden" name="id" value="<?php echo $mostrar2['ID']; ?>">
+        <input type="hidden" name="id_registro" value="<?php echo $mostrar2['ID_Registro']; ?>">
+
 
         <div class="modal-body div1" id="cont_modal">
 
@@ -28,11 +30,24 @@
           </div>
           <div class="form-group">
             <label for="marca" class="col-form-label">Marca:</label>
-            <input type="text" name="marca" class="form-control" value="<?php echo $mostrar2['marca'] ?>" required>
+            <input type="text" name="marca" class="form-control" value="<?php echo $mostrar2['marca'] ?>">
           </div>
           <div class="form-group">
             <label for="valor" class="col-form-label">Valor:</label>
-            <input type="text" name="valor" class="form-control" value="<?php echo $mostrar2['Valor'] ?>">
+            <input type="number" name="valor" class="form-control" value="<?php echo $mostrar2['Valor'] ?>" required>
+          </div>
+          <div class="form-group">
+            <label for="promo" class="col-form-label">Detalle:</label>
+            <input type="text" name="promo" class="form-control" value="<?php echo $mostrar2['Promocion']; ?>" required>
+          </div>
+          <div class="form-group">
+            <label for="indef" class="col-form-label">Fecha de Termino:</label>
+            <?php
+            if ($mostrar2['Indefinido'] != "SI") {
+              echo "<input type='date' name='indef' class='form-control' value=" . $mostrar2['Fecha_Termino'] . " required>";
+            } else {
+              echo "<input type='text' name='indef' class='form-control' value='Indefinido' disabled>";
+            } ?>
           </div>
 
         </div>
