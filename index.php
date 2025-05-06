@@ -551,10 +551,17 @@ require 'bd.php';
                     <form action="categorias.php" method="POST" id="filtro">
                         <div class="row">
                             <div class="col-md-8">
-                                <select name="filtro" id="filtro-select" class="form-select" onchange="this.form.submit()">
+                                <select name="filtro" id="filtro-select" class="form-select">
                                     <option value="">Todas las categorías</option>
-                                    <!-- PHP Categories will go here -->
+                                    <?php
+                                    $categorias = $conexion->query("SELECT * FROM `categorias`;");
+
+                                    foreach ($categorias as $categoria) {
+                                        echo "<option value='" . $categoria['ID'] . "'>" . $categoria['Nombre'] . "</option>";
+                                    }
+                                    ?>
                                 </select>
+
                             </div>
                             <div class="col-md-4 mt-2 mt-md-0">
                                 <button type="submit" class="btn btn-primary w-100">Aplicar Filtro</button>
@@ -564,7 +571,7 @@ require 'bd.php';
                 </div>
             </div>
 
-            <div id="content" class="product-grid animate__animated animate__fadeIn">
+            <div id="content" class="animate__animated animate__fadeIn">
                 <!-- Products will be loaded here dynamically -->
                 <div class="loading">
                     <div class="loading-spinner"></div>
@@ -1004,121 +1011,85 @@ require 'bd.php';
             }
         }
 
-        // Toggle store filter container
-        function toggleStoreFilter() {
-            const storeFilterContainer = document.getElementById('storeFilterContainer');
-            if (storeFilterContainer.style.display === 'none') {
-                storeFilterContainer.style.display = 'block';
-                storeFilterContainer.classList.add('animate__animated', 'animate__fadeIn');
-            } else {
-                storeFilterContainer.style.display = 'none';
-            }
-        }
-
-        // Mobile sidebar toggle
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('show');
-        });
-
-        // Close sidebar when clicking outside of it (on mobile)
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
-
-            if (window.innerWidth < 576 &&
-                !sidebar.contains(event.target) &&
-                event.target !== sidebarToggle &&
-                !sidebarToggle.contains(event.target)) {
-                sidebar.classList.remove('show');
-            }
-        });
-
-        // Product search functionality
-        document.getElementById('campo').addEventListener('keyup', function() {
-            const searchTerm = this.value.toLowerCase();
-            const products = document.querySelectorAll('.product-card');
-
-            products.forEach(product => {
-                const title = product.querySelector('.product-title').textContent.toLowerCase();
-                const price = product.querySelector('.product-price').textContent.toLowerCase();
-                const store = product.querySelector('.store-address')?.textContent.toLowerCase() || '';
-
-                if (title.includes(searchTerm) || price.includes(searchTerm) || store.includes(searchTerm)) {
-                    product.style.display = 'block';
-                } else {
-                    product.style.display = 'none';
-                }
-            });
-        });
-
-        // Load products on page load
+        // Cargar productos y contenido relacionado al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
-            // You could add AJAX calls here to load products from a database
-            // For example:
 
-            $.ajax({
-                url: 'cargar_productos.php',
-                type: 'GET',
-                success: function(response) {
-                    document.getElementById('content').innerHTML = response;
+            // Función reutilizable para cargar contenido con animaciones
+            function cargarYAnimar(url, contenedorId, delayMax = 1, delayStep = 0.03) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        const contenedor = document.getElementById(contenedorId);
+                        if (!contenedor) return;
 
-                    // Add animation to new elements
-                    document.querySelectorAll('.product-card').forEach((card, index) => {
-                        card.classList.add('animate__animated', 'animate__fadeIn');
-                        card.style.animationDelay = `${index * 0.1}s`;
-                    });
-                }
-            });
-            $.ajax({
-                url: 'cargar_pan.php',
-                type: 'GET',
-                success: function(response) {
-                    document.getElementById('content_2').innerHTML = response;
+                        contenedor.innerHTML = response;
 
-                }
-            });
-            $.ajax({
-                url: 'cargar_tiendas.php',
-                type: 'GET',
-                success: function(response) {
-                    document.getElementById('content_3').innerHTML = response;
+                        const tarjetas = contenedor.querySelectorAll('.product-card');
+                        tarjetas.forEach((card, index) => {
+                            card.classList.add('animate__animated', 'animate__fadeIn');
+                            const delay = Math.min(index * delayStep, delayMax);
+                            card.style.animationDelay = `${delay}s`;
+                        });
+                    }
+                });
+            }
 
-                    // Add animation to new elements
-                    document.querySelectorAll('.product-card').forEach((card, index) => {
-                        card.classList.add('animate__animated', 'animate__fadeIn');
+            // Llamadas a cada sección
+            cargarYAnimar('cargar_productos.php', 'content', 1, 0.1); // productos
+            cargarYAnimar('cargar_pan.php', 'content_2'); // pan
+            cargarYAnimar('cargar_tiendas.php', 'content_3'); // tiendas
+            cargarYAnimar('cargar_super.php', 'content_4'); // supermercados
 
-                        // Limita el delay a un máximo de 1 segundo
-                        const delay = Math.min(index * 0.03, 1);
-                        card.style.animationDelay = `${delay}s`;
-                    });
-
-                }
-            });
-            $.ajax({
-                url: 'cargar_super.php',
-                type: 'GET',
-                success: function(response) {
-                    document.getElementById('content_4').innerHTML = response;
-
-                    // Add animation to new elements
-                    document.querySelectorAll('.product-card').forEach((card, index) => {
-                        card.classList.add('animate__animated', 'animate__fadeIn');
-
-                        // Limita el delay a un máximo de 1 segundo
-                        const delay = Math.min(index * 0.03, 1);
-                        card.style.animationDelay = `${delay}s`;
-                    });
-
-                }
-            });
-
-            // Initialize any other components
+            // Inicializar tooltips de Bootstrap
             const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
             tooltips.forEach(tooltip => {
                 new bootstrap.Tooltip(tooltip);
             });
         });
+
+        // Filtro y búsqueda dinámica para productos
+        $(document).ready(function() {
+            function cargarProductos() {
+                const categoria = $('#filtro-select').val();
+                const busqueda = $('#campo').val();
+
+                $.ajax({
+                    url: 'cargar_productos.php',
+                    type: 'GET',
+                    data: {
+                        filtro: categoria,
+                        buscar: busqueda
+                    },
+                    success: function(response) {
+                        const contenedor = $('#content');
+                        contenedor.html(response);
+
+                        contenedor.find('.product-card').each(function(index) {
+                            $(this).addClass('animate__animated animate__fadeIn')
+                                .css('animation-delay', `${index * 0.1}s`);
+                        });
+                    }
+                });
+            }
+
+            // Buscar al escribir
+            $('#campo').on('input', function() {
+                cargarProductos();
+            });
+
+            // Filtrar al enviar el formulario
+            $('#filtro').on('submit', function(e) {
+                e.preventDefault();
+                cargarProductos();
+            });
+
+            // También cuando se cambia el select (opcional)
+            $('#filtro-select').on('change', function() {
+                $('#filtro').submit(); // Triggea el submit normal para que aplique filtro también
+            });
+        });
+
 
         // Form validation for new product form
         document.querySelector('#ModalNuevo form').addEventListener('submit', function(event) {
