@@ -738,27 +738,43 @@ require 'permisos.php';
                                             <label for="filter-store" class="form-label">Filtrar por Tienda</label>
                                             <select class="form-select" name="store" id="filter-store">
                                                 <option value="">Todas las tiendas</option>
-                                                <option value="1" <?= ($_GET['store'] ?? '') == 1 ? 'selected' : '' ?>>Tienda 1</option>
-                                                <option value="2" <?= ($_GET['store'] ?? '') == 2 ? 'selected' : '' ?>>Tienda 2</option>
-                                                <option value="3" <?= ($_GET['store'] ?? '') == 3 ? 'selected' : '' ?>>Tienda 3</option>
+                                                <?php
+                                                // Conexión a la base de datos
+                                                $storeSelected = $_GET['store'] ?? '';
+
+                                                $query = "SELECT ID, Nombre_Almacen FROM tiendas ORDER BY Nombre_Almacen ASC";
+                                                $result = $conexion->query($query);
+
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $selected = ($storeSelected == $row['ID']) ? 'selected' : '';
+                                                    echo "<option value=\"{$row['ID']}\" $selected>{$row['Nombre_Almacen']}</option>";
+                                                }
+                                                ?>
                                             </select>
+
                                         </div>
                                         <div class="col-md-3 mb-3 mb-md-0">
                                             <label for="filter-brand" class="form-label">Filtrar por Marca</label>
                                             <select class="form-select" name="brand" id="filter-brand">
                                                 <option value="">Todas las marcas</option>
-                                                <option value="1" <?= ($_GET['brand'] ?? '') == 1 ? 'selected' : '' ?>>Marca 1</option>
-                                                <option value="2" <?= ($_GET['brand'] ?? '') == 2 ? 'selected' : '' ?>>Marca 2</option>
-                                                <option value="3" <?= ($_GET['brand'] ?? '') == 3 ? 'selected' : '' ?>>Marca 3</option>
+                                                <?php
+                                                // Suponiendo que ya tienes la conexión a la base de datos en $conexion
+                                                $result = $conexion->query("SELECT ID, Nombre FROM marca WHERE Nombre !='' GROUP BY Nombre ORDER BY Nombre ASC;");
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $selected = ($_GET['brand'] ?? '') == $row['ID'] ? 'selected' : '';
+                                                    echo "<option value=\"{$row['ID']}\" {$selected}>{$row['Nombre']}</option>";
+                                                }
+                                                ?>
                                             </select>
+
                                         </div>
                                         <div class="col-md-3 mb-3 mb-md-0">
                                             <label for="filter-price" class="form-label">Rango de Precio</label>
                                             <select class="form-select" name="price" id="filter-price">
                                                 <option value="">Todos los precios</option>
-                                                <option value="1" <?= ($_GET['price'] ?? '') == 1 ? 'selected' : '' ?>>$0 - $10,000</option>
-                                                <option value="2" <?= ($_GET['price'] ?? '') == 2 ? 'selected' : '' ?>>$10,000 - $50,000</option>
-                                                <option value="3" <?= ($_GET['price'] ?? '') == 3 ? 'selected' : '' ?>>$50,000+</option>
+                                                <option value="1" <?= ($_GET['price'] ?? '') == 1 ? 'selected' : '' ?>>$0 - $10.000</option>
+                                                <option value="2" <?= ($_GET['price'] ?? '') == 2 ? 'selected' : '' ?>>$10.000 - $50.000</option>
+                                                <option value="3" <?= ($_GET['price'] ?? '') == 3 ? 'selected' : '' ?>>$50.000+</option>
                                             </select>
                                         </div>
                                         <div class="col-md-3 d-flex align-items-end">

@@ -53,7 +53,7 @@ $html = '';
 if ($num_rows > 0) {
     $html .= '<div class="product-grid ">';
     while ($mostrar = $resultado->fetch_assoc()) {
-        $html .= '<div class="col-md-12 mb-4">';
+        $html .= '<div class="col-md-12 mb-4"><a href="producto.php?product_id=' . htmlspecialchars($mostrar['ID']) . '" style="text-decoration:none">';
         $html .= '<div class="card product-card animate__animated animate__fadeIn">';
         $html .= '<div class="product-image">';
         $html .= '<i class="fas fa-box"></i>';
@@ -63,7 +63,7 @@ if ($num_rows > 0) {
         $html .= '<p class="product-price">$' . number_format($mostrar['Valor'], 0, ',', '.') . '</p>';
         $html .= '</div>';
         $html .= '</div>';
-        $html .= '</div>';
+        $html .= '</a></div>';
     }
     $html .= '</div>';
 } else {
